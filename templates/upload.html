@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block title %}
+Upload Video
+{% endblock %}
+
+
+{% block content %}
+
+<div class="page-header">
+
+    <h1>Upload Video</h1>
+
+    <p>
+        Upload a video for AI-powered analysis.
+    </p>
+
+</div>
+
+
+<div class="upload-card">
+
+    <form method="POST" action="{{ url_for('upload_video') }}" enctype="multipart/form-data">
+
+        <div class="upload-area">
+
+            <h2>
+                Select Your Video
+            </h2>
+
+            <p>
+                MP4, AVI, MOV, MKV or WEBM
+            </p>
+
+            <input type="file" name="video" accept=".mp4,.avi,.mov,.mkv,.webm" required>
+
+        </div>
+
+
+        <button type="submit" class="primary-btn">
+            Upload & Process
+        </button>
+
+    </form>
+
+</div>
+
+{% endblock %}

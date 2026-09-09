@@ -1,0 +1,782 @@
+{% extends "base.html" %}
+
+{% block title %}
+Multi-Video Intelligent Search
+{% endblock %}
+
+{% block content %}
+
+<div class="search-page">
+
+    ```
+    <!-- Header -->
+    <div class="search-header">
+
+        <div class="search-icon">🔎</div>
+
+        <h1>Multi-Video Intelligent Search</h1>
+
+        <p>
+            Ask questions across all your uploaded videos using AI-powered semantic search.
+        </p>
+
+    </div>
+
+
+    <!-- Search Box -->
+    <div class="search-box">
+
+        <form method="POST">
+
+            <div class="search-input-wrapper">
+
+                <span class="input-icon">💬</span>
+
+                <input type="text" name="question" value="{{ question }}"
+                    placeholder="Ask something about your videos..." required autocomplete="off">
+
+            </div>
+
+            <button type="submit" class="ask-btn">
+                🤖 Ask AI
+            </button>
+
+        </form>
+
+    </div>
+
+
+    <!-- AI Answer -->
+    {% if answer %}
+
+    <div class="answer-card">
+
+        <div class="answer-header">
+
+            <div class="answer-title">
+                🤖 AI Answer
+            </div>
+
+            <span class="ai-badge">
+                AI Generated
+            </span>
+
+        </div>
+
+        <div class="answer-content">
+            {{ answer }}
+        </div>
+
+    </div>
+
+    {% endif %}
+
+
+    <!-- Sources -->
+    {% if results %}
+
+    <div class="sources-section">
+
+        <div class="section-header">
+
+            <div>
+                <h2>📚 Relevant Sources</h2>
+                <p>
+                    {{ results|length }} relevant result{% if results|length != 1 %}s{% endif %}
+                    found across your videos.
+                </p>
+            </div>
+
+        </div>
+
+
+        {% for result in results %}
+
+        {% set source_video = namespace(video=None) %}
+
+        {% for video in videos %}
+
+        {% if video.id == result.video_id %}
+
+        {% set source_video.video = video %}
+
+        {% endif %}
+
+        {% endfor %}
+
+
+        <div class="source-card">
+
+            <!-- Source Header -->
+            <div class="source-header">
+
+                <div class="video-title">
+
+                    <span class="video-icon">🎥</span>
+
+                    {% if source_video.video %}
+
+                    <span>
+                        {{ source_video.video.original_filename }}
+                    </span>
+
+                    {% else %}
+
+                    <span>
+                        Video {{ result.video_id }}
+                    </span>
+
+                    {% endif %}
+
+                </div>
+
+
+                <div class="similarity">
+
+                    <span>Relevance</span>
+
+                    <strong>
+                        {{ "%.3f"|format(result.score) }}
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <!-- Source Text -->
+            <div class="source-text">
+
+                {{ result.chunk }}
+
+            </div>
+
+
+            <!-- Footer -->
+            <div class="source-footer">
+
+                <div class="timestamp">
+
+                    <span class="time-icon">⏱️</span>
+
+                    <span>
+                        {{ (result.start_time // 60)|int }}:{{ "%02d"|format((result.start_time % 60)|int) }}
+                    </span>
+
+                    <span class="arrow">→</span>
+
+                    <span>
+                        {{ (result.end_time // 60)|int }}:{{ "%02d"|format((result.end_time % 60)|int) }}
+                    </span>
+
+                </div>
+
+
+                {% if source_video.video %}
+
+                <a href="{{ url_for('video_details', video_id=source_video.video.id) }}?t={{ result.start_time|int }}"
+                    class="watch-btn">
+                    ▶ Watch at timestamp
+                </a>
+
+                {% endif %}
+
+            </div>
+
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+    {% endif %}
+
+
+    <!-- Empty State -->
+    {% if question and not results %}
+
+    <div class="empty-search">
+
+        <div class="empty-icon">
+            🔍
+        </div>
+
+        <h2>No Relevant Results</h2>
+
+        <p>
+            I couldn't find relevant information in your uploaded videos.
+            Try asking your question using different words.
+        </p>
+
+    </div>
+
+    {% endif %}
+
+
+</div>
+
+<style>
+    /* ================================
+   SEARCH PAGE
+================================ */
+
+    .search-page {
+
+        max-width: 1100px;
+
+        margin: 40px auto;
+
+        padding: 20px;
+
+    }
+
+
+    /* ================================
+   HEADER
+================================ */
+
+    .search-header {
+
+        text-align: center;
+
+        margin-bottom: 35px;
+
+    }
+
+    .search-icon {
+
+        font-size: 45px;
+
+        margin-bottom: 10px;
+
+    }
+
+    .search-header h1 {
+
+        font-size: 34px;
+
+        margin: 0 0 10px;
+
+        font-weight: 750;
+
+    }
+
+    .search-header p {
+
+        color: #777;
+
+        font-size: 16px;
+
+        margin: 0;
+
+    }
+
+
+    /* ================================
+   SEARCH BOX
+================================ */
+
+    .search-box {
+
+        background: white;
+
+        padding: 22px;
+
+        border-radius: 16px;
+
+        box-shadow: 0 5px 25px rgba(0, 0, 0, 0.08);
+
+        margin-bottom: 30px;
+
+    }
+
+    .search-box form {
+
+        display: flex;
+
+        gap: 12px;
+
+    }
+
+    .search-input-wrapper {
+
+        flex: 1;
+
+        position: relative;
+
+    }
+
+    .input-icon {
+
+        position: absolute;
+
+        left: 15px;
+
+        top: 50%;
+
+        transform: translateY(-50%);
+
+        font-size: 18px;
+
+    }
+
+    .search-box input {
+
+        width: 100%;
+
+        box-sizing: border-box;
+
+        padding: 15px 15px 15px 45px;
+
+        border: 1px solid #ddd;
+
+        border-radius: 11px;
+
+        font-size: 16px;
+
+        outline: none;
+
+        transition: 0.25s;
+
+    }
+
+    .search-box input:focus {
+
+        border-color: #4f46e5;
+
+        box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.10);
+
+    }
+
+
+    /* ================================
+   ASK BUTTON
+================================ */
+
+    .ask-btn {
+
+        padding: 15px 28px;
+
+        border: none;
+
+        border-radius: 11px;
+
+        cursor: pointer;
+
+        font-weight: 700;
+
+        font-size: 15px;
+
+        transition: 0.25s;
+
+    }
+
+    .ask-btn:hover {
+
+        transform: translateY(-2px) scale(1.03);
+
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+
+    }
+
+
+    /* ================================
+   ANSWER CARD
+================================ */
+
+    .answer-card {
+
+        margin-top: 30px;
+
+        padding: 25px;
+
+        border-radius: 16px;
+
+        background: #f5f7ff;
+
+        border-left: 5px solid #4f46e5;
+
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+
+    }
+
+    .answer-header {
+
+        display: flex;
+
+        justify-content: space-between;
+
+        align-items: center;
+
+        gap: 15px;
+
+        margin-bottom: 15px;
+
+    }
+
+    .answer-title {
+
+        font-size: 20px;
+
+        font-weight: 700;
+
+    }
+
+    .ai-badge {
+
+        background: #e0e7ff;
+
+        color: #4338ca;
+
+        padding: 6px 10px;
+
+        border-radius: 8px;
+
+        font-size: 12px;
+
+        font-weight: 700;
+
+    }
+
+    .answer-content {
+
+        font-size: 17px;
+
+        line-height: 1.8;
+
+        white-space: pre-line;
+
+    }
+
+
+    /* ================================
+   SOURCES
+================================ */
+
+    .sources-section {
+
+        margin-top: 35px;
+
+    }
+
+    .section-header {
+
+        margin-bottom: 20px;
+
+    }
+
+    .section-header h2 {
+
+        margin-bottom: 5px;
+
+    }
+
+    .section-header p {
+
+        color: #777;
+
+        margin-top: 0;
+
+    }
+
+
+    /* ================================
+   SOURCE CARD
+================================ */
+
+    .source-card {
+
+        margin-top: 18px;
+
+        padding: 22px;
+
+        border-radius: 16px;
+
+        background: white;
+
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+
+        transition: transform 0.25s ease, box-shadow 0.25s ease;
+
+    }
+
+    .source-card:hover {
+
+        transform: translateY(-5px) scale(1.01);
+
+        box-shadow: 0 12px 30px rgba(0, 0, 0, 0.13);
+
+    }
+
+
+    /* ================================
+   SOURCE HEADER
+================================ */
+
+    .source-header {
+
+        display: flex;
+
+        justify-content: space-between;
+
+        align-items: center;
+
+        gap: 15px;
+
+    }
+
+    .video-title {
+
+        display: flex;
+
+        align-items: center;
+
+        gap: 10px;
+
+        font-size: 17px;
+
+        font-weight: 700;
+
+        word-break: break-word;
+
+    }
+
+    .video-icon {
+
+        font-size: 22px;
+
+    }
+
+    .similarity {
+
+        display: flex;
+
+        align-items: center;
+
+        gap: 8px;
+
+        padding: 7px 11px;
+
+        border-radius: 9px;
+
+        background: #eef2ff;
+
+        color: #4338ca;
+
+        font-size: 12px;
+
+        white-space: nowrap;
+
+    }
+
+    .similarity strong {
+
+        font-size: 14px;
+
+    }
+
+
+    /* ================================
+   SOURCE TEXT
+================================ */
+
+    .source-text {
+
+        line-height: 1.75;
+
+        margin: 18px 0;
+
+        color: #444;
+
+        padding: 15px;
+
+        border-radius: 10px;
+
+        background: rgba(255, 255, 255, 0.05);
+
+    }
+
+
+    /* ================================
+   FOOTER
+================================ */
+
+    .source-footer {
+
+        display: flex;
+
+        justify-content: space-between;
+
+        align-items: center;
+
+        gap: 15px;
+
+    }
+
+    .timestamp {
+
+        display: flex;
+
+        align-items: center;
+
+        gap: 7px;
+
+        font-size: 14px;
+
+        font-weight: 600;
+
+        color: #555;
+
+    }
+
+    .time-icon {
+
+        font-size: 16px;
+
+    }
+
+    .arrow {
+
+        color: #999;
+
+    }
+
+
+    /* ================================
+   WATCH BUTTON
+================================ */
+
+    .watch-btn {
+
+        display: inline-block;
+
+        padding: 9px 15px;
+
+        border-radius: 9px;
+
+        text-decoration: none;
+
+        font-weight: 700;
+
+        font-size: 14px;
+
+        transition: 0.25s;
+
+    }
+
+    .watch-btn:hover {
+
+        transform: translateY(-2px);
+
+    }
+
+
+    /* ================================
+   EMPTY SEARCH
+================================ */
+
+    .empty-search {
+
+        margin-top: 35px;
+
+        padding: 45px 25px;
+
+        text-align: center;
+
+        border-radius: 16px;
+
+        background: white;
+
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.07);
+
+    }
+
+    .empty-icon {
+
+        font-size: 45px;
+
+        margin-bottom: 10px;
+
+    }
+
+    .empty-search h2 {
+
+        margin-bottom: 8px;
+
+    }
+
+    .empty-search p {
+
+        max-width: 600px;
+
+        margin: auto;
+
+        color: #777;
+
+        line-height: 1.6;
+
+    }
+
+
+    /* ================================
+   RESPONSIVE
+================================ */
+
+    @media (max-width: 700px) {
+
+        .search-page {
+
+            margin: 20px auto;
+
+            padding: 15px;
+
+        }
+
+        .search-header h1 {
+
+            font-size: 27px;
+
+        }
+
+        .search-box form {
+
+            flex-direction: column;
+
+        }
+
+        .ask-btn {
+
+            width: 100%;
+
+        }
+
+        .source-header {
+
+            flex-direction: column;
+
+            align-items: flex-start;
+
+        }
+
+        .source-footer {
+
+            flex-direction: column;
+
+            align-items: flex-start;
+
+        }
+
+        .watch-btn {
+
+            width: 100%;
+
+            text-align: center;
+
+            box-sizing: border-box;
+
+        }
+
+    }
+</style>
+
+{% endblock %}

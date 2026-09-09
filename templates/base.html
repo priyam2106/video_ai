@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>
+        {% block title %}
+        AI Video Summarization
+        {% endblock %}
+    </title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+</head>
+
+<body>
+
+    {% if session.get("user_id") %}
+
+    <aside class="sidebar">
+
+        <div class="logo">
+            <h2>AI Video</h2>
+            <span>Intelligence System</span>
+        </div>
+
+        <nav>
+
+            <a href="{{ url_for('dashboard') }}">
+                Dashboard
+            </a>
+
+            <a href="{{ url_for('videos') }}">
+                My Videos
+            </a>
+
+            <a href="{{ url_for('upload_video') }}">
+                Upload Video
+            </a>
+
+            <a href="{{ url_for('intelligent_search') }}">
+                Intelligent Search
+            </a>
+
+            <a href="{{ url_for('settings') }}">Settings</a>
+        </nav>
+
+        <div class="sidebar-bottom">
+
+            <a href="{{ url_for('logout') }}" class="logout-btn">
+                Logout
+            </a>
+
+        </div>
+
+    </aside>
+
+    {% endif %}
+
+
+    <main class="{% if session.get('user_id') %}main-content{% else %}auth-content{% endif %}">
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+
+        {% if messages %}
+
+        <div class="flash-container">
+
+            {% for category, message in messages %}
+
+            <div class="flash {{ category }}">
+                {{ message }}
+            </div>
+
+            {% endfor %}
+
+        </div>
+
+        {% endif %}
+
+        {% endwith %}
+
+
+        {% block content %}
+        {% endblock %}
+
+    </main>
+
+</body>
+
+</html>
