@@ -195,6 +195,151 @@
 
         </div>
 
+        <!-- =========================================
+     WEBSITE BACKGROUND
+     ========================================= -->
+
+        <section class="background-settings">
+
+            <div class="settings-section-header">
+
+                <div>
+                    <span class="settings-eyebrow">
+                        WORKSPACE APPEARANCE
+                    </span>
+
+                    <h2>
+                        Personalize your background
+                    </h2>
+
+                    <p>
+                        Choose an image to personalize your NeuraVideo workspace.
+                    </p>
+                </div>
+
+                <div class="appearance-icon">
+                    ✦
+                </div>
+
+            </div>
+
+
+            <!-- CURRENT BACKGROUND PREVIEW -->
+
+            <div class="background-preview-wrapper">
+
+                <div class="background-preview-header">
+
+                    <div>
+                        <strong>
+                            Current Background
+                        </strong>
+
+                        <span>
+                            Preview of your workspace
+                        </span>
+                    </div>
+
+                    <span class="preview-badge">
+                        LIVE PREVIEW
+                    </span>
+
+                </div>
+
+
+                <div class="background-preview" id="backgroundPreview" {% if user and user.background_image %} style="
+        background-image:
+        linear-gradient(
+            rgba(10, 15, 30, 0.25),
+            rgba(10, 15, 30, 0.25)
+        ),
+        url('{{ url_for('background_file', filename=user.background_image) }}');
+     " {% endif %}>
+
+                    <div class="preview-content">
+
+                        <div class="preview-logo">
+                            ✦
+                        </div>
+
+                        <div>
+                            <strong>
+                                NeuraVideo
+                            </strong>
+
+                            <span>
+                                AI Video Intelligence
+                            </span>
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- UPLOAD -->
+
+                <form action="{{ url_for('change_background') }}" method="POST" enctype="multipart/form-data"
+                    class="background-form">
+
+                    <label for="background" class="background-upload" id="backgroundUpload">
+
+                        <div class="upload-image-icon">
+                            🖼️
+                        </div>
+
+                        <div>
+
+                            <strong>
+                                Choose a new background
+                            </strong>
+
+                            <span>
+                                Click to browse or drag an image here
+                            </span>
+
+                        </div>
+
+                        <div class="upload-format">
+                            PNG · JPG · JPEG · WEBP
+                        </div>
+
+                    </label>
+
+
+                    <input type="file" id="background" name="background" accept=".png,.jpg,.jpeg,.webp" hidden required>
+
+
+                    <div class="selected-background" id="selectedBackground">
+
+                        <span id="selectedBackgroundName">
+                            No image selected
+                        </span>
+
+                        <span id="selectedBackgroundSize">
+                        </span>
+
+                    </div>
+
+
+                    <button type="submit" class="save-background-btn">
+
+                        <span>
+                            Save Background
+                        </span>
+
+                        <span>
+                            →
+                        </span>
+
+                    </button>
+
+                </form>
+
+        </section>
+
+
+
 
     </div>
 
@@ -557,6 +702,8 @@
         font-size: 14px;
 
     }
+
+
 
 
     /* ================================

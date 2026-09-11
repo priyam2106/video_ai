@@ -17,11 +17,19 @@
 
 </head>
 
-<body>
+<body {% if session.get("user_id") and current_user and current_user.background_image %}
+    style="--user-background: url('{{ url_for('background_file', filename=current_user.background_image) }}');" {% else
+    %} style="--user-background: none;" {% endif %}>
 
     {% if session.get("user_id") %}
 
-    <aside class="sidebar">
+    <!-- SIDEBAR TOGGLE BUTTON -->
+    <button type="button" class="sidebar-toggle" id="sidebarToggle" aria-label="Toggle sidebar">
+        ☰
+    </button>
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar" id="sidebar">
 
         <div class="logo">
             <h2>AI Video</h2>
@@ -31,28 +39,37 @@
         <nav>
 
             <a href="{{ url_for('dashboard') }}">
-                Dashboard
+                <span class="nav-icon">⌂</span>
+                <span class="nav-text">Dashboard</span>
             </a>
 
             <a href="{{ url_for('videos') }}">
-                My Videos
+                <span class="nav-icon">▣</span>
+                <span class="nav-text">My Videos</span>
             </a>
 
             <a href="{{ url_for('upload_video') }}">
-                Upload Video
+                <span class="nav-icon">＋</span>
+                <span class="nav-text">Upload Video</span>
             </a>
 
             <a href="{{ url_for('intelligent_search') }}">
-                Intelligent Search
+                <span class="nav-icon">⌕</span>
+                <span class="nav-text">Intelligent Search</span>
             </a>
 
-            <a href="{{ url_for('settings') }}">Settings</a>
+            <a href="{{ url_for('settings') }}">
+                <span class="nav-icon">⚙</span>
+                <span class="nav-text">Settings</span>
+            </a>
+
         </nav>
 
         <div class="sidebar-bottom">
 
             <a href="{{ url_for('logout') }}" class="logout-btn">
-                Logout
+                <span class="nav-icon">↪</span>
+                <span class="nav-text">Logout</span>
             </a>
 
         </div>
@@ -62,7 +79,7 @@
     {% endif %}
 
 
-    <main class="{% if session.get('user_id') %}main-content{% else %}auth-content{% endif %}">
+    <main class="{% if session.get('user_id') %}main-content{% else %}auth-content{% endif %}" id="mainContent">
 
         {% with messages = get_flashed_messages(with_categories=true) %}
 
@@ -89,6 +106,31 @@
         {% endblock %}
 
     </main>
+
+
+    {% if session.get("user_id") %}
+
+    <script>
+        const sidebarToggle = document.getElementById("sidebarToggle");
+        const sidebar = document.getElementById("sidebar");
+        const mainContent = document.getElementById("mainContent");
+
+        sidebarToggle.addEventListener("click", function () {
+
+            sidebar.classList.toggle("sidebar-closed");
+            mainContent.classList.toggle("main-expanded");
+            sidebarToggle.classList.toggle("toggle-closed");
+
+            if (sidebar.classList.contains("sidebar-closed")) {
+                sidebarToggle.innerHTML = "☰";
+            } else {
+                sidebarToggle.innerHTML = "×";
+            }
+
+        });
+    </script>
+
+    {% endif %}
 
 </body>
 

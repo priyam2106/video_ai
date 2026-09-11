@@ -1,22 +1,35 @@
-from sentence_transformers import SentenceTransformer
+import ollama
 
-MODEL_NAME = "all-MiniLM-L6-v2"
+MODEL_NAME = "bge-m3"
 
-print("Loading embedding model...")
-
-embedding_model = SentenceTransformer(MODEL_NAME)
-print("Embedding model loaded successfully")
 
 def create_embeddings(texts):
-    """
-    Convert a list of text chunks into embeddings.
-    """
 
-    embeddings = embedding_model.encode(
-        texts,
-        convert_to_numpy=True,
-        normalize_embeddings=True
+    if not texts:
+        return []
 
+    print("Creating embeddings using Ollama bge-m3...")
 
+    response = ollama.embed(
+        model=MODEL_NAME,
+        input=texts
     )
+
+    embeddings = response["embeddings"]
+
+    print(f"Created {len(embeddings)} embeddings.")
+
     return embeddings
+
+
+def create_query_embedding(query):
+
+    if not query or not query.strip():
+        raise ValueError("Query cannot be empty.")
+
+    response = ollama.embed(
+        model=MODEL_NAME,
+        input=query
+    )
+
+    return response["embeddings"][0]

@@ -129,6 +129,37 @@
         </div>
 
         <form method="POST" action="{{ url_for('ask_question', video_id=video.id) }}" class="question-form">
+            <div class="model-selector">
+
+                <label for="modelSelect">
+                    🤖 AI Model
+                </label>
+
+                <select name="model" id="modelSelect" class="model-select">
+
+                    <option value="auto">
+                        ⚡ Auto — Let AI choose
+                    </option>
+
+                    <option value="fast">
+                        🚀 Fast — llama3.2:3b
+                    </option>
+
+                    <option value="balanced">
+                        ⚖️ Balanced — qwen2.5:7b
+                    </option>
+
+                    <option value="powerful">
+                        🧠 Powerful — llama3.1:8b
+                    </option>
+
+                </select>
+
+                <small>
+                    Choose how powerful you want the AI response to be.
+                </small>
+
+            </div>
 
             <input type="text" name="question" class="question-input" placeholder="Ask something about this video..."
                 value="{{ question or '' }}" required autocomplete="off">
@@ -410,6 +441,32 @@
                     );
                 }
             }
+        }
+        // ============================================
+        // Model Selection
+        // ============================================
+        const modelSelect = document.getElementById("modelSelect");
+
+        if (modelSelect) {
+
+            const savedModel =
+                localStorage.getItem("selectedAIModel");
+
+            if (savedModel) {
+                modelSelect.value = savedModel;
+            }
+
+            modelSelect.addEventListener(
+                "change",
+                function () {
+
+                    localStorage.setItem(
+                        "selectedAIModel",
+                        this.value
+                    );
+
+                }
+            );
         }
 
         // ============================================

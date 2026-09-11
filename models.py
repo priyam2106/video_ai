@@ -38,6 +38,10 @@ class User(db.Model):
         lazy=True,
         cascade="all, delete-orphan"
     )
+    background_image = db.Column(
+    db.String(255),
+    nullable=True
+    )
 
 
 class Video(db.Model):

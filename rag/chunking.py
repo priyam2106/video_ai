@@ -5,7 +5,7 @@ def chunk_text_with_timestamps(
 ):
     """
     Create text chunks while preserving
-    the start and end timestamps.
+    accurate start and end timestamps.
     """
 
     chunks = []
@@ -27,6 +27,7 @@ def chunk_text_with_timestamps(
         if current_start is None:
             current_start = segment["start"]
 
+        # Add words
         current_words.extend(words)
 
         # Update ending timestamp
@@ -41,19 +42,22 @@ def chunk_text_with_timestamps(
                 "end_time": current_end
             })
 
-            # Keep overlap
-            overlap_words = current_words[
-                -overlap:
-            ]
+            # Keep overlap words
+            overlap_words = current_words[-overlap:]
 
             current_words = overlap_words.copy()
 
-            # The next chunk starts approximately
-            # from the current segment
-            current_start = segment["start"]
+            # We don't know the exact timestamp of the
+            # first overlap word, so keep the previous
+            # chunk start timestamp temporarily.
+            current_start = None
 
     # Store remaining words
     if current_words:
+
+        if current_start is None:
+            # Fallback: use the last available segment start
+            current_start = segments[-1]["start"]
 
         chunks.append({
             "text": " ".join(current_words),

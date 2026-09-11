@@ -3,7 +3,10 @@ import os
 import chromadb
 
 from config import BASE_DIR
-from rag.embeddings import create_embeddings
+from rag.embeddings import (
+    create_embeddings,
+    create_query_embedding
+)
 
 
 # ==========================================
@@ -75,7 +78,7 @@ def create_vector_store(chunks, video_id):
     collection.add(
         ids=ids,
         documents=texts,
-        embeddings=embeddings.tolist(),
+        embeddings=embeddings,
         metadatas=metadatas
     )
 
@@ -94,44 +97,22 @@ def create_vector_store(chunks, video_id):
 # Search Within One Video
 # ==========================================
 
-def search_vector_store(
-    query,
-    video_id,
-    top_k=5
-):
+def search_vector_store(query, video_id, top_k=5, similarity_threshold=0.35):
 
-    # Create query embedding
-    query_embedding = create_embeddings(
-        [query]
-    )
+    query_embedding = create_query_embedding(query)
 
-    # Search ChromaDB
     results = collection.query(
-        query_embeddings=query_embedding.tolist(),
+        query_embeddings=[query_embedding],
         n_results=top_k,
-        where={
-            "video_id": str(video_id)
-        }
+        where={"video_id": str(video_id)}
     )
 
     retrieved_chunks = []
 
-    documents = results.get(
-        "documents",
-        [[]]
-    )[0]
+    documents = results.get("documents", [[]])[0]
+    distances = results.get("distances", [[]])[0]
+    metadatas = results.get("metadatas", [[]])[0]
 
-    distances = results.get(
-        "distances",
-        [[]]
-    )[0]
-
-    metadatas = results.get(
-        "metadatas",
-        [[]]
-    )[0]
-
-    # Process results
     for document, distance, metadata in zip(
         documents,
         distances,
@@ -140,19 +121,32 @@ def search_vector_store(
 
         similarity = 1 - distance
 
-        retrieved_chunks.append(
-            {
-                "chunk": document,
-                "score": float(similarity),
-                "start_time": metadata.get(
-                    "start_time"
-                ),
-                "end_time": metadata.get(
-                    "end_time"
-                ),
-                "metadata": metadata
-            }
+        print(
+            f"Retrieved chunk similarity: {similarity:.4f}"
         )
+
+        # Reject weak matches
+        if similarity < similarity_threshold:
+            continue
+
+        retrieved_chunks.append({
+            "chunk": document,
+            "score": float(similarity),
+            "start_time": metadata.get("start_time"),
+            "end_time": metadata.get("end_time"),
+            "metadata": metadata
+        })
+
+    retrieved_chunks.sort(
+        key=lambda x: x["score"],
+        reverse=True
+
+    )
+    retrieved_chunks = retrieved_chunks[:3]
+
+    print(
+        f"Selected {len(retrieved_chunks)} relevant chunks."
+    )
 
     return retrieved_chunks
 
@@ -164,47 +158,30 @@ def search_vector_store(
 def search_all_videos(
     query,
     video_ids,
-    top_k=5
+    top_k=5,
+    similarity_threshold=0.35
 ):
 
     if not video_ids:
         return []
 
-    # Create query embedding
-    query_embedding = create_embeddings(
-        [query]
-    )
+    query_embedding = create_query_embedding(query)
 
-    # Search all selected videos
     results = collection.query(
-        query_embeddings=query_embedding.tolist(),
+        query_embeddings=[query_embedding],
         n_results=top_k,
         where={
             "video_id": {
-                "$in": [
-                    str(video_id)
-                    for video_id in video_ids
-                ]
+                "$in": [str(video_id) for video_id in video_ids]
             }
         }
     )
 
     retrieved_chunks = []
 
-    documents = results.get(
-        "documents",
-        [[]]
-    )[0]
-
-    distances = results.get(
-        "distances",
-        [[]]
-    )[0]
-
-    metadatas = results.get(
-        "metadatas",
-        [[]]
-    )[0]
+    documents = results.get("documents", [[]])[0]
+    distances = results.get("distances", [[]])[0]
+    metadatas = results.get("metadatas", [[]])[0]
 
     for document, distance, metadata in zip(
         documents,
@@ -214,57 +191,45 @@ def search_all_videos(
 
         similarity = 1 - distance
 
-        retrieved_chunks.append(
-            {
-                "chunk": document,
-                "score": float(similarity),
-                "video_id": int(
-                    metadata["video_id"]
-                ),
-                "start_time": float(
-                    metadata.get(
-                        "start_time",
-                        0
-                    )
-                ),
-                "end_time": float(
-                    metadata.get(
-                        "end_time",
-                        0
-                    )
-                )
-            }
+        print(
+            f"Video {metadata.get('video_id')} "
+            f"similarity: {similarity:.4f}"
         )
-    # ============================================
-    # Remove duplicate / very similar chunks
-    # ============================================
 
+        # if similarity < similarity_threshold:
+        #     continue
+
+        retrieved_chunks.append({
+            "chunk": document,
+            "score": float(similarity),
+            "video_id": int(metadata["video_id"]),
+            "start_time": float(
+                metadata.get("start_time", 0)
+            ),
+            "end_time": float(
+                metadata.get("end_time", 0)
+            )
+        })
+
+    # Remove duplicate chunks
     unique_chunks = []
     seen_text = set()
 
     for result in retrieved_chunks:
 
         text = result["chunk"].strip().lower()
-
         text_key = text[:150]
 
         if text_key not in seen_text:
             seen_text.add(text_key)
             unique_chunks.append(result)
 
-    retrieved_chunks = unique_chunks
-
-
-# ============================================
-# Sort by relevance
-# ============================================
-
-    retrieved_chunks.sort(
+    unique_chunks.sort(
         key=lambda x: x["score"],
         reverse=True
     )
 
-    return retrieved_chunks
+    return unique_chunks
 
 
 # ==========================================

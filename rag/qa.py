@@ -1,58 +1,98 @@
-import ollama
-
-MODEL_NAME = "llama3.2:3b"
+from model_router import generate_with_router
 
 
-def answer_question(question, context):
+def answer_question(question, retrieved_chunks,model_choice="auto"):
+
+    if not retrieved_chunks:
+        return "I could not find the answer in the provided videos."
+
+    print("\n===== RETRIEVED CONTEXT =====")
+
+    context_parts = []
+
+    for i, result in enumerate(
+        retrieved_chunks,
+        start=1
+    ):
+
+        score = result.get("score", 0)
+
+        start_time = result.get(
+            "start_time",
+            0
+        )
+
+        end_time = result.get(
+            "end_time",
+            0
+        )
+
+        video_name = result.get(
+            "video_name",
+            "Unknown video"
+        )
+
+        video_id = result.get(
+            "video_id",
+            "Unknown"
+        )
+
+        print(
+            f"{i}. Video: {video_name} | "
+            f"Score: {score:.4f} | "
+            f"Start: {start_time:.2f}s | "
+            f"End: {end_time:.2f}s"
+        )
+
+        context_parts.append(
+            f"""
+VIDEO: {video_name}
+VIDEO ID: {video_id}
+TIMESTAMP: {start_time:.2f} - {end_time:.2f} seconds
+
+CONTENT:
+{result["chunk"]}
+"""
+        )
+
+    context = "\n\n".join(
+        context_parts
+    )
+
     prompt = f"""
-You are an AI teaching assistant for educational videos.
-
-You will receive:
-1. A user's question
-2. Text retrieved from one or more videos
-
-Your job is to answer the question using the retrieved text.
-
-IMPORTANT:
-- Carefully read the entire retrieved context.
-- If the context contains information that answers the question, answer it.
-- Do NOT say that the answer is missing if the context provides relevant information.
-- Do NOT use outside knowledge.
-- Do NOT invent facts.
-- Give a short and clear answer.
-- The retrieved text may contain speech-to-text errors. Understand the intended meaning from the surrounding words.
+You are an AI teaching assistant that answers questions ONLY from the
+provided video transcript context.
 
 USER QUESTION:
 {question}
 
 RETRIEVED VIDEO CONTEXT:
--------------------------
+--------------------------------
 {context}
--------------------------
+--------------------------------
 
-Now answer the user's question.
+RULES:
 
-If the retrieved context genuinely does not contain the answer, respond exactly:
+1. Answer ONLY using information present in the retrieved context.
+2. Carefully read ALL retrieved chunks.
+3. The transcript may contain speech-to-text errors.
+4. Understand the intended meaning from surrounding sentences.
+5. If the context directly or indirectly answers the question, give the answer.
+6. Do not use outside knowledge.
+7. Do not invent facts.
+8. Keep the answer short and clear.
+9. If multiple retrieved chunks contain relevant information, combine them.
+10. Use the video information and timestamps only as supporting context.
+11. If the context genuinely does not contain the answer, respond exactly:
+
 I could not find the answer in the provided videos.
+
+Now answer the question.
 """
 
-    print("\n===== OLLAMA PROMPT =====")
-    print(prompt)
-    print("=========================\n")
-
-    response = ollama.chat(
-        model=MODEL_NAME,
-        messages=[
-            {
-                "role": "user",
-                "content": prompt
-            }
-        ],
-        options={
-            "temperature": 0
-        }
-    )
-
-    answer = response["message"]["content"].strip()
-
-    return answer
+    return generate_with_router(
+    question,
+    retrieved_chunks,
+    prompt,
+    model_choice
+)

@@ -35,6 +35,33 @@ Upload Video
             <input type="file" name="video" accept=".mp4,.avi,.mov,.mkv,.webm" required>
 
         </div>
+        <div class="whisper-model-selector">
+
+            <label for="whisperModel">
+                🎙️ Transcription Model
+            </label>
+
+            <select name="whisper_model" id="whisperModel" class="whisper-model-select">
+
+                <option value="small">
+                    ⚡ Whisper Small — Fast
+                </option>
+
+                <option value="medium">
+                    ⚖️ Whisper Medium — Balanced
+                </option>
+
+                <option value="large-v3">
+                    🧠 Whisper Large-v3 — Highest Accuracy
+                </option>
+
+            </select>
+
+            <p class="model-description">
+                Choose the Whisper model used to generate your transcript.
+            </p>
+
+        </div>
 
 
         <button type="submit" class="primary-btn">

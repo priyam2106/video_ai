@@ -634,3 +634,312 @@ body {
 .jump-button:hover {
     transform: scale(1.05);
 }
+
+body {
+    background-image:
+        linear-gradient(rgba(245, 247, 251, 0.25),
+            rgba(245, 247, 251, 0.25)),
+        var(--user-background);
+
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+}
+
+/* =========================================
+   SIDEBAR SLIDE TOGGLE
+========================================= */
+
+.sidebar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 250px;
+    height: 100vh;
+
+    transition:
+        transform 0.35s ease,
+        width 0.35s ease;
+
+    z-index: 1000;
+}
+
+
+/* CLOSED SIDEBAR */
+
+.sidebar.sidebar-closed {
+    transform: translateX(-100%);
+}
+
+
+/* =========================================
+   MAIN CONTENT
+========================================= */
+
+.main-content {
+    margin-left: 250px;
+
+    transition:
+        margin-left 0.35s ease;
+}
+
+.main-content.main-expanded {
+    margin-left: 0;
+}
+
+
+/* =========================================
+   TOGGLE BUTTON
+========================================= */
+
+.sidebar-toggle {
+
+    position: fixed;
+
+    top: 20px;
+    left: 265px;
+
+    width: 46px;
+    height: 46px;
+
+    border: 2px solid #4f46e5;
+
+    border-radius: 12px;
+
+    background: #ffffff;
+
+    color: #4f46e5;
+
+    font-size: 23px;
+    font-weight: 800;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    cursor: pointer;
+
+    z-index: 2000;
+
+    box-shadow:
+        0 5px 18px rgba(0, 0, 0, 0.18);
+
+    transition:
+        left 0.35s ease,
+        background 0.2s ease,
+        color 0.2s ease,
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+
+/* HOVER */
+
+.sidebar-toggle:hover {
+
+    background: #4f46e5;
+
+    color: white;
+
+    transform: scale(1.08);
+
+    box-shadow:
+        0 8px 25px rgba(79, 70, 229, 0.35);
+}
+
+
+/* WHEN SIDEBAR IS CLOSED */
+
+.sidebar-toggle.toggle-closed {
+
+    left: 20px;
+
+    background: #4f46e5;
+
+    color: white;
+
+    border-color: #4f46e5;
+}
+
+
+/* =========================================
+   NAV ITEMS
+========================================= */
+
+.sidebar nav a,
+.sidebar-bottom a {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 14px;
+
+    text-decoration: none;
+
+    transition:
+        background 0.2s ease,
+        transform 0.2s ease;
+
+}
+
+
+/* ICON */
+
+.nav-icon {
+
+    min-width: 25px;
+
+    display: inline-flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    font-size: 20px;
+
+    font-weight: 700;
+}
+
+
+/* TEXT */
+
+.nav-text {
+
+    white-space: nowrap;
+}
+
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 768px) {
+
+    .sidebar {
+
+        width: 250px;
+
+        box-shadow:
+            8px 0 30px rgba(0, 0, 0, 0.15);
+    }
+
+    .main-content {
+
+        margin-left: 0;
+    }
+
+    .sidebar-toggle {
+
+        left: 265px;
+
+        top: 15px;
+    }
+
+    .sidebar-toggle.toggle-closed {
+
+        left: 15px;
+    }
+
+}
+
+/* ==========================================
+   AI MODEL SELECTOR
+========================================== */
+
+.model-selector {
+    margin-bottom: 18px;
+    padding: 16px 18px;
+    border-radius: 16px;
+    background: rgba(255, 255, 255, 0.85);
+    border: 1px solid rgba(100, 100, 180, 0.15);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.06);
+}
+
+.model-selector label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 700;
+    color: #1f2937;
+}
+
+.model-selector small {
+    display: block;
+    margin-top: 7px;
+    color: #6b7280;
+    font-size: 12px;
+}
+
+.model-select {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1px solid #d1d5db;
+    border-radius: 12px;
+    background: #ffffff;
+    color: #1f2937;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    outline: none;
+    transition: all 0.2s ease;
+}
+
+.model-select:hover {
+    border-color: #6366f1;
+}
+
+.model-select:focus {
+    border-color: #6366f1;
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.12);
+}
+
+/* ==========================================
+   WHISPER MODEL SELECTOR
+========================================== */
+
+.whisper-model-selector {
+    margin: 20px 0;
+    padding: 18px;
+    border-radius: 18px;
+    background: rgba(255, 255, 255, 0.88);
+    border: 1px solid rgba(99, 102, 241, 0.15);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.06);
+}
+
+.whisper-model-selector label {
+    display: block;
+    margin-bottom: 9px;
+    font-size: 15px;
+    font-weight: 700;
+    color: #1f2937;
+}
+
+.whisper-model-select {
+    width: 100%;
+    padding: 13px 15px;
+    border: 1px solid #d1d5db;
+    border-radius: 12px;
+    background: #ffffff;
+    color: #1f2937;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    outline: none;
+    transition: all 0.2s ease;
+}
+
+.whisper-model-select:hover {
+    border-color: #6366f1;
+}
+
+.whisper-model-select:focus {
+    border-color: #6366f1;
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.12);
+}
+
+.model-description {
+    margin: 8px 0 0;
+    font-size: 12px;
+    color: #6b7280;
+}

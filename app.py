@@ -24,6 +24,7 @@ from models import db, User, Video
 
 from datetime import datetime
 from whisper_service import transcribe_audio
+
 from ollama_service import generate_summary, parse_summary
 
 
@@ -88,19 +89,24 @@ SUMMARY_FOLDER = os.path.join(
     "uploads",
     "summaries"
 )
+BACKGROUND_FOLDER = os.path.join(
+    BASE_DIR,
+    "uploads",
+    "backgrounds"
+)
 
 
 os.makedirs(VIDEO_FOLDER, exist_ok=True)
 os.makedirs(AUDIO_FOLDER, exist_ok=True)
 os.makedirs(TRANSCRIPT_FOLDER, exist_ok=True)
 os.makedirs(SUMMARY_FOLDER, exist_ok=True)
-
+os.makedirs(BACKGROUND_FOLDER, exist_ok=True)
 
 app.config["VIDEO_FOLDER"] = VIDEO_FOLDER
 app.config["AUDIO_FOLDER"] = AUDIO_FOLDER
 app.config["TRANSCRIPT_FOLDER"] = TRANSCRIPT_FOLDER
 app.config["SUMMARY_FOLDER"] = SUMMARY_FOLDER
-
+app.config["BACKGROUND_FOLDER"] = BACKGROUND_FOLDER
 
 # ---------------------------------------
 # ALLOWED VIDEO EXTENSIONS
@@ -122,7 +128,25 @@ def allowed_file(filename):
         and filename.rsplit(".", 1)[1].lower()
         in ALLOWED_EXTENSIONS
     )
+# ---------------------------------------
+# ALLOWED IMAGE EXTENSIONS
+# ---------------------------------------
 
+ALLOWED_BACKGROUND_EXTENSIONS = {
+    "png",
+    "jpg",
+    "jpeg",
+    "webp"
+}
+
+
+def allowed_background_file(filename):
+
+    return (
+        "." in filename
+        and filename.rsplit(".", 1)[1].lower()
+        in ALLOWED_BACKGROUND_EXTENSIONS
+    )
 
 # ---------------------------------------
 # DATABASE
@@ -133,7 +157,19 @@ db.init_app(app)
 with app.app_context():
     db.create_all()
 
+@app.context_processor
+def inject_current_user():
+    current_user = None
 
+    if "user_id" in session:
+        current_user = db.session.get(
+            User,
+            session["user_id"]
+        )
+
+    return {
+        "current_user": current_user
+    }
 # ---------------------------------------
 # HOME
 # ---------------------------------------
@@ -322,10 +358,11 @@ def ask_question(video_id):
             user_id=user_id
         ).first_or_404()
 
-        question = request.form.get(
-            "question",
-            ""
-        ).strip()
+        question = request.form.get("question")
+        model_choice = request.form.get(
+            "model",
+            "auto"
+        )
 
         if not question:
 
@@ -352,25 +389,19 @@ def ask_question(video_id):
                 video_id,
                 top_k=5
             )
+            for result in results:
+                result["video_name"] = video.original_filename
+                result["video_id"] = video.id
 
             # -----------------------------
             # Build Context
             # -----------------------------
 
             if results:
-
-                context = "\n\n".join(
-                    result["chunk"]
-                    for result in results
-                )
-
-                # -----------------------------
-                # Ollama Answer
-                # -----------------------------
-
                 answer = answer_question(
                     question,
-                    context
+                    results,
+                    model_choice
                 )
 
             else:
@@ -528,6 +559,155 @@ def dashboard():
         processing_videos=processing_videos,
         summarized_videos=summarized_videos
     )
+# =======================================
+# CHANGE WEBSITE BACKGROUND
+# =======================================
+
+@app.route(
+    "/change-background",
+    methods=["POST"]
+)
+def change_background():
+
+    if "user_id" not in session:
+        return redirect(
+            url_for("login")
+        )
+
+    user = User.query.get(
+        session["user_id"]
+    )
+
+    if user is None:
+        session.clear()
+
+        return redirect(
+            url_for("login")
+        )
+
+    file = request.files.get(
+        "background"
+    )
+
+    # -----------------------------------
+    # Check file
+    # -----------------------------------
+
+    if not file or file.filename == "":
+        flash(
+            "Please select a background image.",
+            "danger"
+        )
+
+        return redirect(
+            url_for("settings")
+        )
+
+    # -----------------------------------
+    # Validate image
+    # -----------------------------------
+
+    if not allowed_background_file(
+        file.filename
+    ):
+        flash(
+            "Only PNG, JPG, JPEG and WEBP images are allowed.",
+            "danger"
+        )
+
+        return redirect(
+            url_for("settings")
+        )
+
+    # -----------------------------------
+    # Secure filename
+    # -----------------------------------
+
+    original_filename = secure_filename(
+        file.filename
+    )
+
+    extension = original_filename.rsplit(
+        ".",
+        1
+    )[1].lower()
+
+    # -----------------------------------
+    # Create unique filename
+    # -----------------------------------
+
+    new_filename = (
+        f"user_{user.id}_background."
+        f"{extension}"
+    )
+
+    filepath = os.path.join(
+        BACKGROUND_FOLDER,
+        new_filename
+    )
+
+    # -----------------------------------
+    # Delete old background
+    # -----------------------------------
+
+    if user.background_image:
+
+        old_file = os.path.join(
+            BACKGROUND_FOLDER,
+            user.background_image
+        )
+
+        if os.path.exists(old_file):
+
+            try:
+                os.remove(old_file)
+
+            except OSError:
+                pass
+
+    # -----------------------------------
+    # Save new background
+    # -----------------------------------
+
+    file.save(filepath)
+
+    # -----------------------------------
+    # Save filename in database
+    # -----------------------------------
+
+    user.background_image = new_filename
+
+    db.session.commit()
+
+    flash(
+        "Website background updated successfully!",
+        "success"
+    )
+
+    return redirect(
+        url_for("settings")
+    )
+
+# =======================================
+# SERVE BACKGROUND IMAGE
+# =======================================
+
+@app.route(
+    "/background/<filename>"
+)
+def background_file(filename):
+
+    if "user_id" not in session:
+        return redirect(
+            url_for("login")
+        )
+
+    return send_from_directory(
+        BACKGROUND_FOLDER,
+        filename
+    )
+
+
 
 # =======================================
 # VIDEO UPLOAD
@@ -638,9 +818,29 @@ def upload_video():
         print("Transcribing audio using Whisper...")
 
         # Call Whisper ONLY ONCE
-        segments = transcribe_audio(audio_path)
+        whisper_model = request.form.get(
+            "whisper_model",
+            "small"
+        )
+
+        allowed_whisper_models = {
+            "small",
+            "medium",
+            "large-v3"
+        }
+
+        if whisper_model not in allowed_whisper_models:
+            whisper_model = "small"
+
+        whisper_result = transcribe_audio(
+            audio_path,
+            whisper_model
+)
+
+        segments = whisper_result["segments"]
 
         print("Whisper transcription completed.")
+        print(f"Whisper segments: {len(segments)}")
 
         # ==========================================
 # STEP 3: CREATE SENTENCE-BASED TRANSCRIPT
@@ -1168,11 +1368,11 @@ def intelligent_search():
                 """
                         )
 
-                context = "\n\n".join(context_parts)
+                
 
                 answer = answer_question(
                     question,
-                    context
+                    results
                 )
 
             else:
