@@ -31,45 +31,124 @@
     <!-- SIDEBAR -->
     <aside class="sidebar" id="sidebar">
 
-        <div class="logo">
-            <h2>AI Video</h2>
-            <span>Intelligence System</span>
+        <!-- Logo -->
+        <div class="sidebar-brand">
+            <div class="brand-icon">
+                <span>✦</span>
+            </div>
+
+            <div class="brand-text">
+                <h2>NeuraVideo</h2>
+                <span>AI VIDEO INTELLIGENCE</span>
+            </div>
         </div>
 
-        <nav>
 
-            <a href="{{ url_for('dashboard') }}">
+        <!-- User Profile -->
+        <div class="sidebar-profile">
+
+            <div class="profile-avatar">
+                {{ current_user.name[0]|upper if current_user else "U" }}
+            </div>
+
+            <div class="profile-info">
+                <strong>
+                    {{ current_user.name if current_user else "User" }}
+                </strong>
+
+                <span>
+                    <i></i> AI Workspace
+                </span>
+            </div>
+
+        </div>
+
+
+        <!-- Navigation -->
+        <div class="sidebar-section-title">
+            WORKSPACE
+        </div>
+
+        <nav class="sidebar-nav">
+
+            <a href="{{ url_for('dashboard') }}" class="{% if request.endpoint == 'dashboard' %}active{% endif %}">
+
                 <span class="nav-icon">⌂</span>
                 <span class="nav-text">Dashboard</span>
+
+                <span class="nav-arrow">›</span>
             </a>
 
-            <a href="{{ url_for('videos') }}">
+
+            <a href="{{ url_for('videos') }}" class="{% if request.endpoint == 'videos' %}active{% endif %}">
+
                 <span class="nav-icon">▣</span>
                 <span class="nav-text">My Videos</span>
+
+                <span class="nav-arrow">›</span>
             </a>
 
-            <a href="{{ url_for('upload_video') }}">
+
+            <a href="{{ url_for('upload_video') }}"
+                class="{% if request.endpoint == 'upload_video' %}active{% endif %}">
+
                 <span class="nav-icon">＋</span>
                 <span class="nav-text">Upload Video</span>
+
+                <span class="nav-arrow">›</span>
             </a>
 
-            <a href="{{ url_for('intelligent_search') }}">
+
+            <a href="{{ url_for('intelligent_search') }}"
+                class="{% if request.endpoint == 'intelligent_search' %}active{% endif %}">
+
                 <span class="nav-icon">⌕</span>
-                <span class="nav-text">Intelligent Search</span>
-            </a>
+                <span class="nav-text">AI Search</span>
 
-            <a href="{{ url_for('settings') }}">
-                <span class="nav-icon">⚙</span>
-                <span class="nav-text">Settings</span>
+                <span class="nav-arrow">›</span>
             </a>
 
         </nav>
 
+
+        <!-- AI Section -->
+        <div class="sidebar-section-title">
+            AI TOOLS
+        </div>
+
+        <div class="sidebar-ai-card">
+
+            <div class="ai-status">
+                <span class="ai-dot"></span>
+                <span>AI ENGINE</span>
+            </div>
+
+            <strong>Intelligence Online</strong>
+
+            <p>
+                Whisper + RAG + Ollama
+            </p>
+
+        </div>
+
+
+        <!-- Bottom -->
         <div class="sidebar-bottom">
 
-            <a href="{{ url_for('logout') }}" class="logout-btn">
+            <a href="{{ url_for('settings') }}" class="{% if request.endpoint == 'settings' %}active{% endif %}">
+
+                <span class="nav-icon">⚙</span>
+                <span class="nav-text">Settings</span>
+                <span class="nav-arrow">›</span>
+
+            </a>
+
+
+            <a href="{{ url_for('logout') }}" class="logout-link">
+
                 <span class="nav-icon">↪</span>
                 <span class="nav-text">Logout</span>
+
             </a>
 
         </div>

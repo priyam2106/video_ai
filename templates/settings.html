@@ -6,762 +6,887 @@
 
 <div class="settings-page">
 
-
+    <!-- Header -->
     <div class="settings-header">
-        <div class="settings-icon">⚙️</div>
-        <h1>Account Settings</h1>
-        <p>Manage your account information and preferences.</p>
+        <div class="settings-header-icon">⚙️</div>
+
+        <div>
+            <h1>Settings</h1>
+            <p>Manage your profile, security and workspace.</p>
+        </div>
     </div>
 
 
-    <div class="settings-container">
+    <!-- Profile -->
+    <section class="settings-card">
 
-        <!-- Profile Settings -->
-        <div class="settings-card">
+        <div class="section-title">
+            <div class="section-icon">👤</div>
 
-            <div class="card-header">
-                <div>
-                    <h2>👤 Profile Information</h2>
-                    <p>Update your personal account information.</p>
-                </div>
+            <div>
+                <h2>Profile Information</h2>
+                <p>Update your account information.</p>
             </div>
-
-
-            <form method="POST">
-
-                <div class="form-group">
-
-                    <label for="name">
-                        Full Name
-                    </label>
-
-                    <input type="text" id="name" name="name" value="{{ user.name }}" placeholder="Enter your name"
-                        required>
-
-                </div>
-
-
-                <div class="form-group">
-
-                    <label for="email">
-                        Email Address
-                    </label>
-
-                    <input type="email" id="email" name="email" value="{{ user.email }}" placeholder="Enter your email"
-                        required>
-
-                </div>
-
-
-                <button type="submit" class="save-btn">
-                    💾 Save Changes
-                </button>
-
-            </form>
-
         </div>
 
 
-        <!-- Account Information -->
-        <div class="settings-card account-card">
+        <form method="POST">
 
-            <div class="card-header">
+            <div class="form-group">
+                <label for="name">Full Name</label>
 
-                <div>
-                    <h2>📊 Account Information</h2>
-                    <p>Your account details.</p>
-                </div>
-
+                <input type="text" id="name" name="name" value="{{ user.name }}" placeholder="Enter your name" required>
             </div>
 
 
-            <div class="account-info">
+            <div class="form-group">
+                <label for="email">Email Address</label>
 
-                <div class="info-row">
-
-                    <span class="info-label">
-                        Account ID
-                    </span>
-
-                    <span class="info-value">
-                        #{{ user.id }}
-                    </span>
-
-                </div>
+                <input type="email" id="email" name="email" value="{{ user.email }}" placeholder="Enter your email"
+                    required>
+            </div>
 
 
-                <div class="info-row">
+            <button type="submit" class="settings-btn">
+                💾 Save Changes
+            </button>
 
-                    <span class="info-label">
-                        Account Created
-                    </span>
+        </form>
 
-                    <span class="info-value">
-
-                        {% if user.created_at %}
-                        {{ user.created_at.strftime("%d %b %Y") }}
-                        {% else %}
-                        Not available
-                        {% endif %}
-
-                    </span>
-
-                </div>
+    </section>
 
 
-                <div class="info-row">
+    <!-- Account -->
+    <section class="settings-card">
 
-                    <span class="info-label">
-                        Account Status
-                    </span>
+        <div class="section-title">
+            <div class="section-icon">📊</div>
 
-                    <span class="status-badge">
-                        ● Active
-                    </span>
+            <div>
+                <h2>Account Information</h2>
+                <p>Your account details.</p>
+            </div>
+        </div>
 
-                </div>
 
+        <div class="account-list">
+
+            <div class="account-row">
+                <span>Account ID</span>
+                <strong>#{{ user.id }}</strong>
+            </div>
+
+
+            <div class="account-row">
+                <span>Account Created</span>
+
+                <strong>
+                    {% if user.created_at %}
+                    {{ user.created_at.strftime("%d %b %Y") }}
+                    {% else %}
+                    Not available
+                    {% endif %}
+                </strong>
+            </div>
+
+
+            <div class="account-row">
+                <span>Account Status</span>
+
+                <span class="active-status">
+                    ● Active
+                </span>
             </div>
 
         </div>
 
+    </section>
 
-        <!-- Security -->
 
-        <div class="settings-card security-card">
+    <!-- Security -->
+    <section class="settings-card">
 
-            ```
-            <div class="card-header">
+        <div class="section-title">
+            <div class="section-icon security-icon">🔐</div>
 
-                <div>
-                    <h2>🔐 Security</h2>
-                    <p>Update your account password securely.</p>
-                </div>
+            <div>
+                <h2>Security</h2>
+                <p>Change your account password.</p>
+            </div>
+        </div>
 
+
+        <form method="POST">
+
+            <input type="hidden" name="action" value="password">
+
+
+            <div class="form-group">
+                <label for="current_password">
+                    Current Password
+                </label>
+
+                <input type="password" id="current_password" name="current_password"
+                    placeholder="Enter current password" required>
             </div>
 
 
-            <form method="POST">
+            <div class="form-group">
+                <label for="new_password">
+                    New Password
+                </label>
 
-                <input type="hidden" name="action" value="password">
+                <input type="password" id="new_password" name="new_password" placeholder="Enter new password"
+                    minlength="8" required>
 
-
-                <div class="form-group">
-
-                    <label for="current_password">
-                        Current Password
-                    </label>
-
-                    <input type="password" id="current_password" name="current_password"
-                        placeholder="Enter your current password" required>
-
-                </div>
+                <small>
+                    Minimum 8 characters.
+                </small>
+            </div>
 
 
-                <div class="form-group">
+            <div class="form-group">
+                <label for="confirm_password">
+                    Confirm New Password
+                </label>
 
-                    <label for="new_password">
-                        New Password
-                    </label>
-
-                    <input type="password" id="new_password" name="new_password" placeholder="Enter new password"
-                        minlength="8" required>
-
-                    <small class="password-hint">
-                        Password must contain at least 8 characters.
-                    </small>
-
-                </div>
+                <input type="password" id="confirm_password" name="confirm_password" placeholder="Confirm new password"
+                    minlength="8" required>
+            </div>
 
 
-                <div class="form-group">
+            <button type="submit" class="settings-btn">
+                🔑 Change Password
+            </button>
 
-                    <label for="confirm_password">
-                        Confirm New Password
-                    </label>
+        </form>
 
-                    <input type="password" id="confirm_password" name="confirm_password"
-                        placeholder="Confirm your new password" minlength="8" required>
-
-                </div>
+    </section>
 
 
-                <button type="submit" class="save-btn">
-                    🔑 Change Password
-                </button>
+    <!-- Background -->
+    <section class="settings-card background-card">
 
-            </form>
+        <div class="section-title">
 
+            <div class="section-icon background-icon">
+                🖼️
+            </div>
+
+            <div>
+                <h2>Workspace Background</h2>
+
+                <p>
+                    Personalize your NeuraVideo workspace.
+                </p>
+            </div>
 
         </div>
 
-        <!-- =========================================
-     WEBSITE BACKGROUND
-     ========================================= -->
 
-        <section class="background-settings">
+        <!-- Preview -->
 
-            <div class="settings-section-header">
+        <div class="background-preview" id="backgroundPreview" {% if user and user.background_image %}
+            style="background-image: url('{{ url_for('background_file', filename=user.background_image) }}');" {% endif
+            %}>
 
-                <div>
-                    <span class="settings-eyebrow">
-                        WORKSPACE APPEARANCE
-                    </span>
+            <div class=" preview-content">
 
-                    <h2>
-                        Personalize your background
-                    </h2>
-
-                    <p>
-                        Choose an image to personalize your NeuraVideo workspace.
-                    </p>
-                </div>
-
-                <div class="appearance-icon">
+                <div class="preview-logo">
                     ✦
                 </div>
 
+                <div>
+                    <strong>NeuraVideo</strong>
+                    <span>AI Video Intelligence</span>
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- Upload -->
+
+        <form action="{{ url_for('change_background') }}" method="POST" enctype="multipart/form-data">
+
+            <label for="background" class="upload-box">
+
+                <div class="upload-icon">
+                    🖼️
+                </div>
+
+                <div>
+                    <strong>
+                        Choose Background Image
+                    </strong>
+
+                    <p>
+                        Click here to select an image
+                    </p>
+                </div>
+
+            </label>
+
+
+            <input type="file" id="background" name="background" accept=".png,.jpg,.jpeg,.webp" hidden required>
+
+
+            <div class="selected-file" id="selectedBackground">
+
+                <span id="selectedBackgroundName">
+                    No image selected
+                </span>
+
+                <span id="selectedBackgroundSize"></span>
+
             </div>
 
 
-            <!-- CURRENT BACKGROUND PREVIEW -->
+            <button type="submit" class="background-btn">
+                ✨ Save Background
+            </button>
 
-            <div class="background-preview-wrapper">
+        </form>
 
-                <div class="background-preview-header">
-
-                    <div>
-                        <strong>
-                            Current Background
-                        </strong>
-
-                        <span>
-                            Preview of your workspace
-                        </span>
-                    </div>
-
-                    <span class="preview-badge">
-                        LIVE PREVIEW
-                    </span>
-
-                </div>
-
-
-                <div class="background-preview" id="backgroundPreview" {% if user and user.background_image %} style="
-        background-image:
-        linear-gradient(
-            rgba(10, 15, 30, 0.25),
-            rgba(10, 15, 30, 0.25)
-        ),
-        url('{{ url_for('background_file', filename=user.background_image) }}');
-     " {% endif %}>
-
-                    <div class="preview-content">
-
-                        <div class="preview-logo">
-                            ✦
-                        </div>
-
-                        <div>
-                            <strong>
-                                NeuraVideo
-                            </strong>
-
-                            <span>
-                                AI Video Intelligence
-                            </span>
-                        </div>
-
-                    </div>
-
-                </div>
-
-
-                <!-- UPLOAD -->
-
-                <form action="{{ url_for('change_background') }}" method="POST" enctype="multipart/form-data"
-                    class="background-form">
-
-                    <label for="background" class="background-upload" id="backgroundUpload">
-
-                        <div class="upload-image-icon">
-                            🖼️
-                        </div>
-
-                        <div>
-
-                            <strong>
-                                Choose a new background
-                            </strong>
-
-                            <span>
-                                Click to browse or drag an image here
-                            </span>
-
-                        </div>
-
-                        <div class="upload-format">
-                            PNG · JPG · JPEG · WEBP
-                        </div>
-
-                    </label>
-
-
-                    <input type="file" id="background" name="background" accept=".png,.jpg,.jpeg,.webp" hidden required>
-
-
-                    <div class="selected-background" id="selectedBackground">
-
-                        <span id="selectedBackgroundName">
-                            No image selected
-                        </span>
-
-                        <span id="selectedBackgroundSize">
-                        </span>
-
-                    </div>
-
-
-                    <button type="submit" class="save-background-btn">
-
-                        <span>
-                            Save Background
-                        </span>
-
-                        <span>
-                            →
-                        </span>
-
-                    </button>
-
-                </form>
-
-        </section>
-
-
-
-
-    </div>
-
+    </section>
 
 </div>
 
+
 <style>
-    /* ================================
-   SETTINGS PAGE
-================================ */
+    /* =========================================
+   PAGE
+========================================= */
 
     .settings-page {
-
         max-width: 900px;
-
-        margin: 40px auto;
-
-        padding: 20px;
-
+        margin: 0 auto;
+        padding: 35px 20px 60px;
     }
 
 
-    /* ================================
+    /* =========================================
    HEADER
-================================ */
+========================================= */
 
     .settings-header {
+        display: flex;
+        align-items: center;
+        gap: 16px;
 
-        text-align: center;
+        margin-bottom: 28px;
+        padding: 22px;
 
-        margin-bottom: 35px;
+        border-radius: 18px;
 
+        background: rgba(15, 23, 42, 0.88);
+
+        border: 1px solid rgba(129, 140, 248, 0.18);
+
+        box-shadow: 0 15px 40px rgba(0, 0, 0, 0.18);
     }
 
-    .settings-icon {
+    .settings-header-icon {
+        width: 50px;
+        height: 50px;
 
-        font-size: 45px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
 
-        margin-bottom: 10px;
+        border-radius: 13px;
 
+        background: #6366f1;
+
+        font-size: 23px;
     }
 
     .settings-header h1 {
+        margin: 0;
 
-        font-size: 34px;
+        color: #f8fafc;
 
-        margin: 0 0 10px;
-
-        font-weight: 750;
-
+        font-size: 27px;
     }
 
     .settings-header p {
+        margin: 5px 0 0;
 
-        color: #777;
+        color: #94a3b8;
 
-        margin: 0;
-
+        font-size: 13px;
     }
 
 
-    /* ================================
-   CONTAINER
-================================ */
-
-    .settings-container {
-
-        display: flex;
-
-        flex-direction: column;
-
-        gap: 22px;
-
-    }
-
-
-    /* ================================
+    /* =========================================
    CARD
-================================ */
+========================================= */
 
     .settings-card {
+        margin-bottom: 20px;
 
-        background: white;
+        padding: 25px;
 
-        border-radius: 16px;
+        border-radius: 18px;
 
-        padding: 28px;
+        background: rgba(15, 23, 42, 0.88);
 
-        box-shadow: 0 5px 25px rgba(0, 0, 0, 0.08);
+        border: 1px solid rgba(148, 163, 184, 0.12);
 
-        transition: 0.25s;
+        box-shadow: 0 12px 35px rgba(0, 0, 0, 0.16);
 
+        transition: 0.25s ease;
     }
 
     .settings-card:hover {
+        transform: translateY(-2px);
 
-        transform: translateY(-3px);
-
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
-
+        border-color:
+            rgba(129, 140, 248, 0.28);
     }
 
 
-    /* ================================
-   CARD HEADER
-================================ */
+    /* =========================================
+   SECTION TITLE
+========================================= */
 
-    .card-header {
+    .section-title {
+        display: flex;
+        align-items: center;
+        gap: 13px;
 
-        margin-bottom: 25px;
-
+        margin-bottom: 23px;
     }
 
-    .card-header h2 {
+    .section-icon {
+        width: 42px;
+        height: 42px;
 
-        margin: 0 0 6px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
 
-        font-size: 21px;
+        border-radius: 11px;
 
+        background: rgba(99, 102, 241, 0.13);
+
+        font-size: 19px;
     }
 
-    .card-header p {
+    .security-icon {
+        background: rgba(236, 72, 153, 0.12);
+    }
 
+    .background-icon {
+        background: rgba(139, 92, 246, 0.13);
+    }
+
+    .section-title h2 {
         margin: 0;
 
-        color: #777;
+        color: #f8fafc;
 
-        font-size: 14px;
+        font-size: 18px;
+    }
 
+    .section-title p {
+        margin: 4px 0 0;
+
+        color: #64748b;
+
+        font-size: 12px;
     }
 
 
-    /* ================================
+    /* =========================================
    FORM
-================================ */
+========================================= */
 
     .form-group {
-
-        margin-bottom: 20px;
-
+        margin-bottom: 18px;
     }
 
     .form-group label {
-
         display: block;
 
-        margin-bottom: 8px;
+        margin-bottom: 7px;
 
-        font-weight: 600;
+        color: #cbd5e1;
 
-        font-size: 14px;
-
+        font-size: 12px;
+        font-weight: 700;
     }
 
     .form-group input {
-
         width: 100%;
+        height: 44px;
 
         box-sizing: border-box;
 
-        padding: 13px 15px;
-
-        border: 1px solid #ddd;
+        padding: 0 13px;
 
         border-radius: 10px;
 
-        font-size: 15px;
+        border: 1px solid rgba(148, 163, 184, 0.16);
+
+        background: rgba(2, 6, 23, 0.55);
+
+        color: #f8fafc;
 
         outline: none;
 
-        transition: 0.25s;
+        font-size: 13px;
 
+        transition: 0.2s;
+    }
+
+    .form-group input::placeholder {
+        color: #475569;
     }
 
     .form-group input:focus {
+        border-color: #6366f1;
 
-        border-color: #4f46e5;
+        box-shadow:
+            0 0 0 3px rgba(99, 102, 241, 0.10);
+    }
 
-        box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.10);
+    .form-group small {
+        display: block;
 
+        margin-top: 6px;
+
+        color: #64748b;
+
+        font-size: 10px;
     }
 
 
-    /* ================================
-   SAVE BUTTON
-================================ */
+    /* =========================================
+   BUTTON
+========================================= */
 
-    .save-btn {
+    .settings-btn {
+        height: 42px;
+
+        padding: 0 17px;
 
         border: none;
 
-        padding: 12px 20px;
-
         border-radius: 10px;
+
+        background: #6366f1;
+
+        color: white;
+
+        font-size: 12px;
+        font-weight: 700;
 
         cursor: pointer;
 
-        font-weight: 700;
-
-        font-size: 14px;
-
-        transition: 0.25s;
-
+        transition: 0.2s;
     }
 
-    .save-btn:hover {
+    .settings-btn:hover {
+        background: #4f46e5;
 
-        transform: translateY(-2px) scale(1.02);
+        transform: translateY(-2px);
 
-        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-
+        box-shadow:
+            0 8px 20px rgba(99, 102, 241, 0.25);
     }
 
 
-    /* ================================
-   ACCOUNT INFORMATION
-================================ */
+    /* =========================================
+   ACCOUNT
+========================================= */
 
-    .account-info {
-
+    .account-list {
         display: flex;
-
         flex-direction: column;
-
     }
 
-    .info-row {
-
+    .account-row {
         display: flex;
-
-        justify-content: space-between;
 
         align-items: center;
+        justify-content: space-between;
 
-        padding: 15px 0;
+        padding: 14px 0;
 
-        border-bottom: 1px solid #eee;
+        border-bottom:
+            1px solid rgba(148, 163, 184, 0.08);
 
+        color: #94a3b8;
+
+        font-size: 12px;
     }
 
-    .info-row:last-child {
-
+    .account-row:last-child {
         border-bottom: none;
-
     }
 
-    .info-label {
+    .account-row strong {
+        color: #e2e8f0;
 
-        color: #777;
-
-        font-size: 14px;
-
+        font-size: 12px;
     }
 
-    .info-value {
-
-        font-weight: 600;
-
-        font-size: 14px;
-
-    }
-
-
-    /* ================================
-   STATUS
-================================ */
-
-    .status-badge {
-
+    .active-status {
         padding: 6px 10px;
 
         border-radius: 8px;
 
-        background: #ecfdf5;
+        background: rgba(34, 197, 94, 0.09);
 
-        color: #047857;
+        color: #86efac;
 
-        font-size: 13px;
-
+        font-size: 11px;
         font-weight: 700;
-
     }
 
 
-    /* ================================
-   SECURITY
-================================ */
+    /* =========================================
+   BACKGROUND
+========================================= */
 
-    .security-content {
+    .background-card {
+        padding-bottom: 25px;
+    }
+
+    .background-preview {
+        height: 210px;
+
+        margin-bottom: 15px;
+
+        border-radius: 14px;
+
+        overflow: hidden;
+
+        background:
+            linear-gradient(135deg,
+                #111827,
+                #312e81,
+                #1e1b4b);
+
+        background-size: cover;
+
+        background-position: center;
+
+        border:
+            1px solid rgba(255, 255, 255, 0.10);
+
+        position: relative;
+    }
+
+    .background-preview::after {
+        content: "";
+
+        position: absolute;
+
+        inset: 0;
+
+        background:
+            rgba(2, 6, 23, 0.30);
+    }
+
+    .preview-content {
+        position: absolute;
+
+        left: 20px;
+        top: 20px;
+
+        z-index: 2;
 
         display: flex;
 
-        justify-content: space-between;
+        align-items: center;
+
+        gap: 10px;
+    }
+
+    .preview-logo {
+        width: 36px;
+        height: 36px;
+
+        display: flex;
+
+        align-items: center;
+        justify-content: center;
+
+        border-radius: 10px;
+
+        background: #6366f1;
+
+        color: white;
+
+        font-size: 17px;
+    }
+
+    .preview-content strong {
+        display: block;
+
+        color: white;
+
+        font-size: 14px;
+    }
+
+    .preview-content span {
+        display: block;
+
+        margin-top: 2px;
+
+        color: rgba(255, 255, 255, 0.65);
+
+        font-size: 9px;
+    }
+
+
+    /* =========================================
+   UPLOAD BOX
+========================================= */
+
+    .upload-box {
+        display: flex;
 
         align-items: center;
 
-        gap: 20px;
+        gap: 13px;
 
-    }
-
-    .security-content h3 {
-
-        margin: 0 0 6px;
-
-    }
-
-    .security-content p {
-
-        margin: 0;
-
-        color: #777;
-
-        font-size: 14px;
-
-    }
-
-    .security-btn {
-
-        border: none;
-
-        padding: 11px 16px;
-
-        border-radius: 9px;
-
-        cursor: pointer;
-
-        font-weight: 600;
-
-        white-space: nowrap;
-
-        transition: 0.25s;
-
-    }
-
-    .security-btn:hover {
-
-        transform: translateY(-2px);
-
-    }
-
-
-    /* ================================
-   PASSWORD MESSAGE
-================================ */
-
-    .password-message {
-
-        display: none;
-
-        margin-top: 20px;
+        min-height: 70px;
 
         padding: 12px 15px;
 
-        border-radius: 9px;
+        box-sizing: border-box;
 
-        background: #fff7ed;
+        border-radius: 12px;
 
-        color: #9a3412;
+        border: 1px dashed rgba(129, 140, 248, 0.30);
 
-        font-size: 14px;
+        background: rgba(99, 102, 241, 0.04);
 
+        cursor: pointer;
+
+        transition: 0.2s;
+    }
+
+    .upload-box:hover {
+        background: rgba(99, 102, 241, 0.09);
+
+        border-color: #6366f1;
+    }
+
+    .upload-icon {
+        width: 40px;
+        height: 40px;
+
+        display: flex;
+
+        align-items: center;
+        justify-content: center;
+
+        border-radius: 10px;
+
+        background: rgba(99, 102, 241, 0.12);
+
+        font-size: 18px;
+    }
+
+    .upload-box strong {
+        color: #e2e8f0;
+
+        font-size: 12px;
+    }
+
+    .upload-box p {
+        margin: 4px 0 0;
+
+        color: #64748b;
+
+        font-size: 10px;
     }
 
 
+    /* =========================================
+   SELECTED FILE
+========================================= */
+
+    .selected-file {
+        display: none;
+
+        align-items: center;
+        justify-content: space-between;
+
+        margin-top: 10px;
+
+        padding: 10px 12px;
+
+        border-radius: 9px;
+
+        background: rgba(34, 197, 94, 0.06);
+
+        border: 1px solid rgba(34, 197, 94, 0.12);
+
+        color: #86efac;
+
+        font-size: 10px;
+    }
 
 
-    /* ================================
+    /* =========================================
+   BACKGROUND BUTTON
+========================================= */
+
+    .background-btn {
+        width: 100%;
+
+        height: 43px;
+
+        margin-top: 10px;
+
+        border: none;
+
+        border-radius: 10px;
+
+        background:
+            linear-gradient(135deg,
+                #6366f1,
+                #7c3aed);
+
+        color: white;
+
+        font-size: 12px;
+        font-weight: 700;
+
+        cursor: pointer;
+
+        transition: 0.2s;
+    }
+
+    .background-btn:hover {
+        transform: translateY(-2px);
+
+        box-shadow:
+            0 10px 25px rgba(99, 102, 241, 0.25);
+    }
+
+
+    /* =========================================
    MOBILE
-================================ */
+========================================= */
 
-    @media (max-width: 650px) {
+    @media (max-width: 600px) {
 
         .settings-page {
+            padding: 20px 14px 40px;
+        }
 
-            margin: 20px auto;
-
-            padding: 15px;
-
+        .settings-header {
+            padding: 18px;
         }
 
         .settings-header h1 {
-
-            font-size: 28px;
-
+            font-size: 23px;
         }
 
         .settings-card {
-
             padding: 20px;
-
         }
 
-        .security-content {
-
-            flex-direction: column;
-
-            align-items: flex-start;
-
+        .account-row {
+            gap: 10px;
         }
 
-        .security-btn {
-
-            width: 100%;
-
-        }
-
-        .info-row {
-
-            gap: 15px;
-
+        .account-row strong {
+            text-align: right;
         }
 
     }
 </style>
 
+
 <script>
 
-    function showPasswordMessage() {
+    /* =========================================
+       BACKGROUND IMAGE SELECTION
+    ========================================= */
 
-        const message = document.getElementById("password-message");
+    const backgroundInput =
+        document.getElementById("background");
 
-        message.style.display = "block";
+    const selectedBackground =
+        document.getElementById("selectedBackground");
+
+    const selectedBackgroundName =
+        document.getElementById("selectedBackgroundName");
+
+    const selectedBackgroundSize =
+        document.getElementById("selectedBackgroundSize");
+
+    const backgroundPreview =
+        document.getElementById("backgroundPreview");
+
+
+    if (backgroundInput) {
+
+        backgroundInput.addEventListener(
+            "change",
+            function () {
+
+                const file = this.files[0];
+
+                if (!file) {
+                    return;
+                }
+
+
+                /* Show selected file */
+
+                selectedBackground.style.display =
+                    "flex";
+
+
+                selectedBackgroundName.textContent =
+                    file.name;
+
+
+                /* File size */
+
+                if (file.size < 1024 * 1024) {
+
+                    selectedBackgroundSize.textContent =
+                        (file.size / 1024).toFixed(1)
+                        + " KB";
+
+                } else {
+
+                    selectedBackgroundSize.textContent =
+                        (file.size / (1024 * 1024)).toFixed(2)
+                        + " MB";
+
+                }
+
+
+                /* Preview */
+
+                const reader =
+                    new FileReader();
+
+                reader.onload =
+                    function (event) {
+
+                        backgroundPreview.style.backgroundImage =
+                            "url('" +
+                            event.target.result +
+                            "')";
+
+                    };
+
+                reader.readAsDataURL(file);
+
+            }
+        );
 
     }
 

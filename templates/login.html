@@ -1,50 +1,911 @@
 {% extends "base.html" %}
 
 {% block title %}
-Login
+Login | AI Video Intelligence
 {% endblock %}
-
 
 {% block content %}
 
-<div class="auth-card">
+<div class="login-page">
 
-    <h1>Welcome Back</h1>
+    <!-- Background AI Elements -->
+    <div class="ai-glow glow-1"></div>
+    <div class="ai-glow glow-2"></div>
 
-    <p class="subtitle">
-        Login to your AI Video Intelligence System
-    </p>
+    <div class="login-container">
+
+        <!-- LEFT SIDE -->
+        <div class="login-intro">
+
+            <div class="brand-icon">
+                ✦
+            </div>
+
+            <span class="intro-label">
+                AI VIDEO INTELLIGENCE
+            </span>
+
+            <h1>
+                Welcome<br>
+                <span>Back.</span>
+            </h1>
+
+            <p>
+                Transform your videos into knowledge with
+                AI-powered summarization, semantic search
+                and intelligent video analysis.
+            </p>
+
+            <div class="ai-features">
+
+                <div class="feature-item">
+                    <div class="feature-icon">◉</div>
+                    <div>
+                        <strong>Smart Summarization</strong>
+                        <small>Extract important information automatically</small>
+                    </div>
+                </div>
+
+                <div class="feature-item">
+                    <div class="feature-icon">⌕</div>
+                    <div>
+                        <strong>Intelligent Search</strong>
+                        <small>Find information across your videos</small>
+                    </div>
+                </div>
+
+                <div class="feature-item">
+                    <div class="feature-icon">✦</div>
+                    <div>
+                        <strong>AI Assistant</strong>
+                        <small>Ask questions about your videos</small>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
 
 
-    <form method="POST" action="{{ url_for('login') }}">
+        <!-- RIGHT SIDE LOGIN CARD -->
+        <div class="login-card">
 
-        <label>Email</label>
+            <div class="login-card-header">
 
-        <input type="email" name="email" placeholder="Enter your email" required>
+                <div class="login-mini-icon">
+                    🤖
+                </div>
 
+                <div>
+                    <h2>Sign In</h2>
+                    <p>Access your AI workspace</p>
+                </div>
 
-        <label>Password</label>
-
-        <input type="password" name="password" placeholder="Enter password" required>
-
-
-        <button type="submit" class="primary-btn">
-            Login
-        </button>
-
-    </form>
+            </div>
 
 
-    <p class="auth-link">
+            <form method="POST" action="{{ url_for('login') }}">
 
-        Don't have an account?
+                <div class="input-group">
 
-        <a href="{{ url_for('register') }}">
-            Create Account
-        </a>
+                    <label for="email">
+                        Email Address
+                    </label>
 
-    </p>
+                    <div class="input-wrapper">
+
+                        <span class="input-icon">
+                            ✉
+                        </span>
+
+                        <input type="email" id="email" name="email" placeholder="Enter your email" required
+                            autocomplete="email">
+
+                    </div>
+
+                </div>
+
+
+                <div class="input-group">
+
+                    <label for="password">
+                        Password
+                    </label>
+
+                    <div class="input-wrapper">
+
+                        <span class="input-icon">
+                            🔒
+                        </span>
+
+                        <input type="password" id="password" name="password" placeholder="Enter your password" required
+                            autocomplete="current-password">
+
+                        <button type="button" class="password-toggle" id="passwordToggle" aria-label="Show password">
+                            ◉
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+                <button type="submit" class="login-button">
+
+                    <span>Enter AI Workspace</span>
+
+                    <span class="button-arrow">
+                        →
+                    </span>
+
+                </button>
+
+            </form>
+
+
+            <div class="login-divider">
+                <span>AI VIDEO INTELLIGENCE SYSTEM</span>
+            </div>
+
+
+            <p class="register-text">
+
+                Don't have an account?
+
+                <a href="{{ url_for('register') }}">
+                    Create Account →
+                </a>
+
+            </p>
+
+
+            <div class="security-note">
+
+                <span>●</span>
+
+                Your workspace is protected and private
+
+            </div>
+
+        </div>
+
+    </div>
 
 </div>
+
+
+<style>
+    /* =========================================
+   LOGIN PAGE
+========================================= */
+
+    .login-page {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 40px;
+        position: relative;
+        overflow: hidden;
+    }
+
+
+    /* =========================================
+   BACKGROUND GLOW
+========================================= */
+
+    .ai-glow {
+        position: absolute;
+        border-radius: 50%;
+        filter: blur(100px);
+        pointer-events: none;
+    }
+
+    .glow-1 {
+        width: 350px;
+        height: 350px;
+        background: rgba(99, 102, 241, 0.18);
+        top: -120px;
+        left: -100px;
+    }
+
+    .glow-2 {
+        width: 400px;
+        height: 400px;
+        background: rgba(139, 92, 246, 0.13);
+        bottom: -180px;
+        right: -120px;
+    }
+
+
+    /* =========================================
+   MAIN CONTAINER
+========================================= */
+
+    .login-container {
+        width: min(1050px, 100%);
+        min-height: 620px;
+
+        display: grid;
+        grid-template-columns: 1.05fr 0.95fr;
+
+        background: rgba(15, 23, 42, 0.72);
+
+        border: 1px solid rgba(148, 163, 184, 0.14);
+
+        border-radius: 28px;
+
+        backdrop-filter: blur(24px);
+        -webkit-backdrop-filter: blur(24px);
+
+        box-shadow:
+            0 30px 80px rgba(0, 0, 0, 0.35),
+            inset 0 1px 0 rgba(255, 255, 255, 0.05);
+
+        overflow: hidden;
+
+        position: relative;
+        z-index: 2;
+    }
+
+
+    /* =========================================
+   LEFT INTRO
+========================================= */
+
+    .login-intro {
+        padding: 70px 55px;
+
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+
+        position: relative;
+    }
+
+
+    .brand-icon {
+        width: 55px;
+        height: 55px;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        border-radius: 16px;
+
+        background:
+            linear-gradient(135deg,
+                rgba(99, 102, 241, 0.25),
+                rgba(139, 92, 246, 0.15));
+
+        border: 1px solid rgba(129, 140, 248, 0.25);
+
+        color: #a5b4fc;
+
+        font-size: 27px;
+
+        margin-bottom: 25px;
+
+        box-shadow:
+            0 0 30px rgba(99, 102, 241, 0.15);
+    }
+
+
+    .intro-label {
+        color: #818cf8;
+
+        font-size: 11px;
+
+        font-weight: 800;
+
+        letter-spacing: 3px;
+
+        margin-bottom: 18px;
+    }
+
+
+    .login-intro h1 {
+        margin: 0;
+
+        font-size: clamp(50px, 6vw, 78px);
+
+        line-height: 0.95;
+
+        letter-spacing: -3px;
+
+        color: #f8fafc;
+
+        font-weight: 800;
+    }
+
+
+    .login-intro h1 span {
+        background:
+            linear-gradient(90deg,
+                #818cf8,
+                #c084fc);
+
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+
+        background-clip: text;
+    }
+
+
+    .login-intro>p {
+        max-width: 480px;
+
+        margin: 28px 0 35px;
+
+        color: #94a3b8;
+
+        font-size: 14px;
+
+        line-height: 1.8;
+    }
+
+
+    /* =========================================
+   FEATURES
+========================================= */
+
+    .ai-features {
+        display: flex;
+        flex-direction: column;
+        gap: 13px;
+    }
+
+
+    .feature-item {
+        display: flex;
+
+        align-items: center;
+
+        gap: 14px;
+
+        padding: 12px 14px;
+
+        border-radius: 14px;
+
+        background: rgba(30, 41, 59, 0.35);
+
+        border: 1px solid rgba(148, 163, 184, 0.08);
+
+        transition:
+            transform 0.25s ease,
+            background 0.25s ease,
+            border-color 0.25s ease;
+    }
+
+
+    .feature-item:hover {
+        transform: translateX(5px);
+
+        background: rgba(99, 102, 241, 0.08);
+
+        border-color: rgba(129, 140, 248, 0.2);
+    }
+
+
+    .feature-icon {
+        width: 38px;
+        height: 38px;
+
+        flex-shrink: 0;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        border-radius: 11px;
+
+        background: rgba(99, 102, 241, 0.12);
+
+        color: #a5b4fc;
+
+        font-size: 17px;
+    }
+
+
+    .feature-item strong {
+        display: block;
+
+        color: #e2e8f0;
+
+        font-size: 13px;
+
+        margin-bottom: 3px;
+    }
+
+
+    .feature-item small {
+        color: #64748b;
+
+        font-size: 11px;
+    }
+
+
+    /* =========================================
+   LOGIN CARD
+========================================= */
+
+    .login-card {
+        margin: 20px;
+
+        padding: 45px 42px;
+
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+
+        background: rgba(2, 6, 23, 0.55);
+
+        border: 1px solid rgba(148, 163, 184, 0.10);
+
+        border-radius: 22px;
+
+        box-shadow:
+            inset 0 1px 0 rgba(255, 255, 255, 0.03);
+    }
+
+
+    /* =========================================
+   CARD HEADER
+========================================= */
+
+    .login-card-header {
+        display: flex;
+
+        align-items: center;
+
+        gap: 14px;
+
+        margin-bottom: 35px;
+    }
+
+
+    .login-mini-icon {
+        width: 46px;
+        height: 46px;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        border-radius: 13px;
+
+        background: rgba(99, 102, 241, 0.13);
+
+        border: 1px solid rgba(129, 140, 248, 0.18);
+
+        font-size: 20px;
+    }
+
+
+    .login-card-header h2 {
+        margin: 0 0 3px;
+
+        color: #f8fafc;
+
+        font-size: 25px;
+
+        font-weight: 750;
+    }
+
+
+    .login-card-header p {
+        margin: 0;
+
+        color: #64748b;
+
+        font-size: 12px;
+    }
+
+
+    /* =========================================
+   INPUTS
+========================================= */
+
+    .input-group {
+        margin-bottom: 20px;
+    }
+
+
+    .input-group label {
+        display: block;
+
+        margin-bottom: 8px;
+
+        color: #cbd5e1;
+
+        font-size: 12px;
+
+        font-weight: 650;
+    }
+
+
+    .input-wrapper {
+        position: relative;
+
+        display: flex;
+
+        align-items: center;
+    }
+
+
+    .input-icon {
+        position: absolute;
+
+        left: 15px;
+
+        color: #64748b;
+
+        font-size: 15px;
+
+        pointer-events: none;
+    }
+
+
+    .input-wrapper input {
+        width: 100%;
+
+        height: 50px;
+
+        box-sizing: border-box;
+
+        padding: 0 45px;
+
+        border-radius: 12px;
+
+        border: 1px solid rgba(148, 163, 184, 0.14);
+
+        outline: none;
+
+        background: rgba(15, 23, 42, 0.75);
+
+        color: #f8fafc;
+
+        font-size: 13px;
+
+        transition:
+            border-color 0.2s ease,
+            box-shadow 0.2s ease,
+            background 0.2s ease;
+    }
+
+
+    .input-wrapper input::placeholder {
+        color: #475569;
+    }
+
+
+    .input-wrapper input:focus {
+        border-color: rgba(129, 140, 248, 0.65);
+
+        background: rgba(15, 23, 42, 0.95);
+
+        box-shadow:
+            0 0 0 3px rgba(99, 102, 241, 0.08);
+    }
+
+
+    /* =========================================
+   PASSWORD TOGGLE
+========================================= */
+
+    .password-toggle {
+        position: absolute;
+
+        right: 10px;
+
+        width: 34px;
+        height: 34px;
+
+        border: none;
+
+        border-radius: 8px;
+
+        background: transparent;
+
+        color: #64748b;
+
+        cursor: pointer;
+
+        transition:
+            color 0.2s ease,
+            background 0.2s ease;
+    }
+
+
+    .password-toggle:hover {
+        color: #a5b4fc;
+
+        background: rgba(99, 102, 241, 0.10);
+    }
+
+
+    /* =========================================
+   LOGIN BUTTON
+========================================= */
+
+    .login-button {
+        width: 100%;
+
+        height: 51px;
+
+        margin-top: 5px;
+
+        display: flex;
+
+        align-items: center;
+
+        justify-content: space-between;
+
+        padding: 0 17px 0 20px;
+
+        border: none;
+
+        border-radius: 12px;
+
+        background:
+            linear-gradient(135deg,
+                #6366f1,
+                #7c3aed);
+
+        color: white;
+
+        font-size: 13px;
+
+        font-weight: 750;
+
+        cursor: pointer;
+
+        box-shadow:
+            0 10px 25px rgba(99, 102, 241, 0.20);
+
+        transition:
+            transform 0.2s ease,
+            box-shadow 0.2s ease,
+            filter 0.2s ease;
+    }
+
+
+    .login-button:hover {
+        transform: translateY(-2px);
+
+        filter: brightness(1.08);
+
+        box-shadow:
+            0 15px 35px rgba(99, 102, 241, 0.30);
+    }
+
+
+    .button-arrow {
+        width: 30px;
+        height: 30px;
+
+        display: flex;
+
+        align-items: center;
+
+        justify-content: center;
+
+        border-radius: 8px;
+
+        background: rgba(255, 255, 255, 0.12);
+
+        font-size: 17px;
+    }
+
+
+    /* =========================================
+   DIVIDER
+========================================= */
+
+    .login-divider {
+        display: flex;
+
+        align-items: center;
+
+        gap: 10px;
+
+        margin: 27px 0 20px;
+
+        color: #334155;
+
+        font-size: 8px;
+
+        letter-spacing: 1.5px;
+
+        font-weight: 700;
+    }
+
+
+    .login-divider::before,
+    .login-divider::after {
+        content: "";
+
+        height: 1px;
+
+        flex: 1;
+
+        background: rgba(148, 163, 184, 0.10);
+    }
+
+
+    .login-divider span {
+        white-space: nowrap;
+    }
+
+
+    /* =========================================
+   REGISTER
+========================================= */
+
+    .register-text {
+        margin: 0;
+
+        text-align: center;
+
+        color: #64748b;
+
+        font-size: 12px;
+    }
+
+
+    .register-text a {
+        color: #a5b4fc;
+
+        text-decoration: none;
+
+        font-weight: 700;
+
+        margin-left: 4px;
+
+        transition: color 0.2s ease;
+    }
+
+
+    .register-text a:hover {
+        color: #c4b5fd;
+    }
+
+
+    /* =========================================
+   SECURITY
+========================================= */
+
+    .security-note {
+        margin-top: 25px;
+
+        text-align: center;
+
+        color: #475569;
+
+        font-size: 10px;
+    }
+
+
+    .security-note span {
+        color: #22c55e;
+
+        font-size: 8px;
+
+        margin-right: 5px;
+    }
+
+
+    /* =========================================
+   RESPONSIVE
+========================================= */
+
+    @media (max-width: 850px) {
+
+        .login-page {
+            padding: 20px;
+        }
+
+        .login-container {
+            grid-template-columns: 1fr;
+
+            max-width: 520px;
+        }
+
+        .login-intro {
+            padding: 40px 35px 20px;
+        }
+
+        .login-intro h1 {
+            font-size: 55px;
+        }
+
+        .login-intro>p {
+            margin: 20px 0 25px;
+        }
+
+        .ai-features {
+            display: none;
+        }
+
+        .login-card {
+            margin: 10px 20px 20px;
+
+            padding: 35px 28px;
+        }
+    }
+
+
+    @media (max-width: 500px) {
+
+        .login-page {
+            padding: 12px;
+        }
+
+        .login-container {
+            border-radius: 20px;
+        }
+
+        .login-intro {
+            padding: 30px 25px 10px;
+        }
+
+        .login-intro h1 {
+            font-size: 48px;
+            letter-spacing: -2px;
+        }
+
+        .login-card {
+            margin: 10px;
+
+            padding: 28px 20px;
+        }
+
+        .login-card-header {
+            margin-bottom: 27px;
+        }
+
+    }
+</style>
+
+
+<script>
+
+    const passwordInput = document.getElementById("password");
+    const passwordToggle = document.getElementById("passwordToggle");
+
+    if (passwordToggle && passwordInput) {
+
+        passwordToggle.addEventListener("click", function () {
+
+            if (passwordInput.type === "password") {
+
+                passwordInput.type = "text";
+
+                passwordToggle.innerHTML = "◉";
+
+                passwordToggle.setAttribute(
+                    "aria-label",
+                    "Hide password"
+                );
+
+            } else {
+
+                passwordInput.type = "password";
+
+                passwordToggle.innerHTML = "◉";
+
+                passwordToggle.setAttribute(
+                    "aria-label",
+                    "Show password"
+                );
+
+            }
+
+        });
+
+    }
+
+</script>
 
 {% endblock %}

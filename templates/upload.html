@@ -4,72 +4,1613 @@
 Upload Video
 {% endblock %}
 
-
 {% block content %}
 
-<div class="page-header">
+<div class="upload-page">
 
-    <h1>Upload Video</h1>
+    <!-- =========================
+         HEADER
+         ========================= -->
 
-    <p>
-        Upload a video for AI-powered analysis.
-    </p>
+    <div class="upload-header">
 
-</div>
+        <div>
+            <span class="upload-eyebrow">
+                AI VIDEO PROCESSING
+            </span>
 
-
-<div class="upload-card">
-
-    <form method="POST" action="{{ url_for('upload_video') }}" enctype="multipart/form-data">
-
-        <div class="upload-area">
-
-            <h2>
-                Select Your Video
-            </h2>
+            <h1>
+                Upload Your <span>Video</span>
+            </h1>
 
             <p>
-                MP4, AVI, MOV, MKV or WEBM
+                Transform your video into searchable knowledge
+                using Whisper, RAG and AI.
             </p>
-
-            <input type="file" name="video" accept=".mp4,.avi,.mov,.mkv,.webm" required>
-
-        </div>
-        <div class="whisper-model-selector">
-
-            <label for="whisperModel">
-                🎙️ Transcription Model
-            </label>
-
-            <select name="whisper_model" id="whisperModel" class="whisper-model-select">
-
-                <option value="small">
-                    ⚡ Whisper Small — Fast
-                </option>
-
-                <option value="medium">
-                    ⚖️ Whisper Medium — Balanced
-                </option>
-
-                <option value="large-v3">
-                    🧠 Whisper Large-v3 — Highest Accuracy
-                </option>
-
-            </select>
-
-            <p class="model-description">
-                Choose the Whisper model used to generate your transcript.
-            </p>
-
         </div>
 
+        <div class="upload-header-status">
+            <span class="status-pulse"></span>
+            AI ENGINE READY
+        </div>
 
-        <button type="submit" class="primary-btn">
-            Upload & Process
-        </button>
+    </div>
 
-    </form>
+
+    <!-- =========================
+         MAIN WORKSPACE
+         ========================= -->
+
+    <div class="upload-workspace">
+
+
+        <!-- LEFT : UPLOAD AREA -->
+
+        <div class="creative-upload-card">
+
+            <form method="POST" action="{{ url_for('upload_video') }}" enctype="multipart/form-data" id="uploadForm">
+
+                <div class="drop-zone" id="dropZone">
+
+                    <input type="file" name="video" id="videoInput" accept=".mp4,.avi,.mov,.mkv,.webm" required>
+
+                    <div class="upload-orbit">
+
+                        <div class="orbit orbit-one"></div>
+                        <div class="orbit orbit-two"></div>
+
+                        <div class="upload-icon">
+                            ↑
+                        </div>
+
+                    </div>
+
+
+                    <div class="drop-content">
+
+                        <h2>
+                            Drop your video here
+                        </h2>
+
+                        <p>
+                            or click anywhere in this area to browse
+                        </p>
+
+                        <div class="supported-formats">
+
+                            <span>MP4</span>
+                            <span>AVI</span>
+                            <span>MOV</span>
+                            <span>MKV</span>
+                            <span>WEBM</span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- FILE PREVIEW -->
+
+                <div class="selected-file" id="selectedFile">
+
+                    <div class="file-icon">
+                        ▶
+                    </div>
+
+                    <div class="file-details">
+
+                        <strong id="fileName">
+                            Video selected
+                        </strong>
+
+                        <span id="fileSize">
+                            Ready for processing
+                        </span>
+
+                    </div>
+
+                    <button type="button" class="remove-file" id="removeFile">
+                        ×
+                    </button>
+
+                </div>
+
+
+                <!-- WHISPER MODEL -->
+
+                <div class="ai-model-box">
+
+                    <div class="model-heading">
+
+                        <div class="model-icon">
+                            🎙
+                        </div>
+
+                        <div>
+
+                            <h3>
+                                Transcription Engine
+                            </h3>
+
+                            <p>
+                                Choose the Whisper model for
+                                speech recognition.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <select name="whisper_model" id="whisperModel" class="creative-model-select">
+
+                        <option value="small">
+                            ⚡ Whisper Small — Fast
+                        </option>
+
+                        <option value="medium">
+                            ⚖ Whisper Medium — Balanced
+                        </option>
+
+                        <option value="large-v3">
+                            🧠 Whisper Large-v3 — Highest Accuracy
+                        </option>
+
+                    </select>
+
+
+                    <div class="model-info">
+
+                        <div>
+                            <span class="info-dot"></span>
+                            Local processing
+                        </div>
+
+                        <div>
+                            <span class="info-dot"></span>
+                            Timestamped transcript
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- SUBMIT -->
+
+                <button type="submit" class="process-button" id="processButton">
+
+                    <span class="button-icon">
+                        ✦
+                    </span>
+
+                    <span>
+                        Upload & Start AI Processing
+                    </span>
+
+                    <span class="button-arrow">
+                        →
+                    </span>
+
+                </button>
+
+            </form>
+
+        </div>
+
+
+        <!-- RIGHT : PIPELINE -->
+
+        <div class="processing-panel">
+
+            <div class="panel-label">
+                INTELLIGENT PIPELINE
+            </div>
+
+            <h2>
+                From Video to
+                <span>Knowledge</span>
+            </h2>
+
+            <p class="panel-description">
+                Your uploaded video passes through multiple
+                AI processing stages automatically.
+            </p>
+
+
+            <div class="pipeline">
+
+
+                <div class="pipeline-step">
+
+                    <div class="step-number">
+                        01
+                    </div>
+
+                    <div class="step-icon">
+                        ▶
+                    </div>
+
+                    <div class="step-content">
+
+                        <strong>
+                            Video Upload
+                        </strong>
+
+                        <span>
+                            Securely receive your video
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <div class="pipeline-line"></div>
+
+
+                <div class="pipeline-step">
+
+                    <div class="step-number">
+                        02
+                    </div>
+
+                    <div class="step-icon">
+                        ♪
+                    </div>
+
+                    <div class="step-content">
+
+                        <strong>
+                            Whisper ASR
+                        </strong>
+
+                        <span>
+                            Convert speech into text
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <div class="pipeline-line"></div>
+
+
+                <div class="pipeline-step">
+
+                    <div class="step-number">
+                        03
+                    </div>
+
+                    <div class="step-icon">
+                        ◈
+                    </div>
+
+                    <div class="step-content">
+
+                        <strong>
+                            RAG Indexing
+                        </strong>
+
+                        <span>
+                            Create searchable knowledge
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <div class="pipeline-line"></div>
+
+
+                <div class="pipeline-step">
+
+                    <div class="step-number">
+                        04
+                    </div>
+
+                    <div class="step-icon">
+                        ✦
+                    </div>
+
+                    <div class="step-content">
+
+                        <strong>
+                            AI Intelligence
+                        </strong>
+
+                        <span>
+                            Summaries, Q&A and insights
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- BOTTOM AI CARD -->
+
+            <div class="ai-ready-card">
+
+                <div class="ai-orb-small">
+                    ✦
+                </div>
+
+                <div>
+
+                    <strong>
+                        AI Workspace Ready
+                    </strong>
+
+                    <p>
+                        Upload a video to begin analysis.
+                    </p>
+
+                </div>
+
+                <span class="ready-dot"></span>
+
+            </div>
+
+        </div>
+
+    </div>
 
 </div>
+
+
+<script>
+
+    /* =========================================
+       FILE UPLOAD INTERACTION
+       ========================================= */
+
+    const dropZone = document.getElementById("dropZone");
+    const videoInput = document.getElementById("videoInput");
+
+    const selectedFile =
+        document.getElementById("selectedFile");
+
+    const fileName =
+        document.getElementById("fileName");
+
+    const fileSize =
+        document.getElementById("fileSize");
+
+    const removeFile =
+        document.getElementById("removeFile");
+
+
+    /* Click upload area */
+
+    dropZone.addEventListener("click", function () {
+
+        videoInput.click();
+
+    });
+
+
+    /* Prevent double click when clicking input */
+
+    videoInput.addEventListener("click", function (event) {
+
+        event.stopPropagation();
+
+    });
+
+
+    /* File selected */
+
+    videoInput.addEventListener("change", function () {
+
+        if (this.files.length > 0) {
+
+            showSelectedFile(this.files[0]);
+
+        }
+
+    });
+
+
+    /* Drag over */
+
+    dropZone.addEventListener("dragover", function (event) {
+
+        event.preventDefault();
+
+        dropZone.classList.add("dragging");
+
+    });
+
+
+    /* Drag leave */
+
+    dropZone.addEventListener("dragleave", function () {
+
+        dropZone.classList.remove("dragging");
+
+    });
+
+
+    /* Drop */
+
+    dropZone.addEventListener("drop", function (event) {
+
+        event.preventDefault();
+
+        dropZone.classList.remove("dragging");
+
+        const files = event.dataTransfer.files;
+
+        if (files.length > 0) {
+
+            videoInput.files = files;
+
+            showSelectedFile(files[0]);
+
+        }
+
+    });
+
+
+    /* Display selected file */
+
+    function showSelectedFile(file) {
+
+        fileName.textContent = file.name;
+
+        const sizeMB =
+            (file.size / (1024 * 1024)).toFixed(2);
+
+        fileSize.textContent =
+            sizeMB + " MB • Ready for processing";
+
+        selectedFile.classList.add("show");
+
+        dropZone.classList.add("has-file");
+
+    }
+
+
+    /* Remove file */
+
+    removeFile.addEventListener("click", function () {
+
+        videoInput.value = "";
+
+        selectedFile.classList.remove("show");
+
+        dropZone.classList.remove("has-file");
+
+    });
+
+
+    /* =========================================
+       PROCESSING BUTTON
+       ========================================= */
+
+    const uploadForm =
+        document.getElementById("uploadForm");
+
+    const processButton =
+        document.getElementById("processButton");
+
+    uploadForm.addEventListener("submit", function () {
+
+        processButton.classList.add("processing");
+
+        processButton.querySelector("span:nth-child(2)")
+            .textContent = "Starting AI Processing...";
+
+    });
+
+
+    /* =========================================
+       MODEL MEMORY
+       ========================================= */
+
+    const whisperModel =
+        document.getElementById("whisperModel");
+
+    const savedWhisperModel =
+        localStorage.getItem("selectedWhisperModel");
+
+    if (savedWhisperModel) {
+
+        whisperModel.value =
+            savedWhisperModel;
+
+    }
+
+
+    whisperModel.addEventListener("change", function () {
+
+        localStorage.setItem(
+            "selectedWhisperModel",
+            this.value
+        );
+
+    });
+
+</script>
+
+
+<style>
+    /* =====================================================
+   UPLOAD PAGE
+   ===================================================== */
+
+    .upload-page {
+        max-width: 1400px;
+
+        margin: 0 auto;
+
+        padding: 35px 35px 60px;
+
+        color: #f8fafc;
+    }
+
+
+    /* =====================================================
+   HEADER
+   ===================================================== */
+
+    .upload-header {
+        display: flex;
+
+        align-items: flex-end;
+
+        justify-content: space-between;
+
+        gap: 30px;
+
+        margin-bottom: 35px;
+    }
+
+
+    .upload-eyebrow {
+        display: inline-block;
+
+        margin-bottom: 10px;
+
+        color: #818cf8;
+
+        font-size: 10px;
+
+        font-weight: 800;
+
+        letter-spacing: 2px;
+    }
+
+
+    .upload-header h1 {
+        margin: 0;
+
+        font-size: clamp(32px, 4vw, 48px);
+
+        line-height: 1.1;
+
+        letter-spacing: -1.5px;
+
+        color: #f8fafc;
+    }
+
+
+    .upload-header h1 span {
+        background:
+            linear-gradient(90deg,
+                #818cf8,
+                #c084fc);
+
+        -webkit-background-clip: text;
+
+        -webkit-text-fill-color: transparent;
+    }
+
+
+    .upload-header p {
+        margin: 12px 0 0;
+
+        max-width: 620px;
+
+        color: #8f9ab8;
+
+        font-size: 14px;
+
+        line-height: 1.7;
+    }
+
+
+    .upload-header-status {
+        display: flex;
+
+        align-items: center;
+
+        gap: 8px;
+
+        padding: 10px 14px;
+
+        border-radius: 30px;
+
+        background:
+            rgba(34, 197, 94, 0.08);
+
+        border:
+            1px solid rgba(34, 197, 94, 0.15);
+
+        color: #86efac;
+
+        font-size: 9px;
+
+        font-weight: 800;
+
+        letter-spacing: 1px;
+
+        white-space: nowrap;
+    }
+
+
+    .status-pulse {
+        width: 7px;
+        height: 7px;
+
+        border-radius: 50%;
+
+        background: #22c55e;
+
+        box-shadow:
+            0 0 12px #22c55e;
+    }
+
+
+    /* =====================================================
+   WORKSPACE
+   ===================================================== */
+
+    .upload-workspace {
+        display: grid;
+
+        grid-template-columns:
+            minmax(0, 1.25fr) minmax(340px, 0.75fr);
+
+        gap: 25px;
+
+        align-items: stretch;
+    }
+
+
+    /* =====================================================
+   MAIN UPLOAD CARD
+   ===================================================== */
+
+    .creative-upload-card {
+        padding: 24px;
+
+        border-radius: 24px;
+
+        background:
+            rgba(9, 12, 28, 0.72);
+
+        border:
+            1px solid rgba(255, 255, 255, 0.09);
+
+        backdrop-filter: blur(18px);
+
+        box-shadow:
+            0 25px 60px rgba(0, 0, 0, 0.28);
+
+        position: relative;
+
+        overflow: hidden;
+    }
+
+
+    .creative-upload-card::before {
+        content: "";
+
+        position: absolute;
+
+        width: 250px;
+        height: 250px;
+
+        top: -130px;
+        right: -100px;
+
+        border-radius: 50%;
+
+        background:
+            rgba(99, 102, 241, 0.12);
+
+        filter: blur(50px);
+
+        pointer-events: none;
+    }
+
+
+    /* =====================================================
+   DROP ZONE
+   ===================================================== */
+
+    .drop-zone {
+        min-height: 350px;
+
+        position: relative;
+
+        display: flex;
+
+        flex-direction: column;
+
+        align-items: center;
+
+        justify-content: center;
+
+        text-align: center;
+
+        padding: 35px;
+
+        border-radius: 20px;
+
+        border:
+            1.5px dashed rgba(129, 140, 248, 0.35);
+
+        background:
+            linear-gradient(145deg,
+                rgba(99, 102, 241, 0.07),
+                rgba(139, 92, 246, 0.025));
+
+        cursor: pointer;
+
+        overflow: hidden;
+
+        transition:
+            border-color 0.3s ease,
+            background 0.3s ease,
+            transform 0.3s ease;
+    }
+
+
+    .drop-zone:hover,
+    .drop-zone.dragging {
+        border-color: #818cf8;
+
+        background:
+            rgba(99, 102, 241, 0.12);
+
+        transform:
+            translateY(-2px);
+
+        box-shadow:
+            inset 0 0 40px rgba(99, 102, 241, 0.06);
+    }
+
+
+    .drop-zone input {
+        display: none;
+    }
+
+
+    /* =====================================================
+   UPLOAD ORBIT
+   ===================================================== */
+
+    .upload-orbit {
+        position: relative;
+
+        width: 115px;
+        height: 115px;
+
+        display: flex;
+
+        align-items: center;
+
+        justify-content: center;
+
+        margin-bottom: 25px;
+    }
+
+
+    .upload-icon {
+        width: 65px;
+        height: 65px;
+
+        display: flex;
+
+        align-items: center;
+
+        justify-content: center;
+
+        border-radius: 20px;
+
+        background:
+            linear-gradient(135deg,
+                #6366f1,
+                #8b5cf6);
+
+        color: white;
+
+        font-size: 30px;
+
+        font-weight: 300;
+
+        box-shadow:
+            0 0 35px rgba(99, 102, 241, 0.45);
+
+        z-index: 2;
+
+        transition:
+            transform 0.3s ease;
+    }
+
+
+    .drop-zone:hover .upload-icon {
+        transform:
+            translateY(-5px) scale(1.05);
+    }
+
+
+    .orbit {
+        position: absolute;
+
+        border-radius: 50%;
+
+        border:
+            1px solid rgba(129, 140, 248, 0.3);
+    }
+
+
+    .orbit-one {
+        width: 95px;
+        height: 95px;
+
+        animation:
+            orbitRotate 7s linear infinite;
+    }
+
+
+    .orbit-two {
+        width: 115px;
+        height: 115px;
+
+        border-style: dashed;
+
+        animation:
+            orbitRotateReverse 10s linear infinite;
+    }
+
+
+    .drop-content h2 {
+        margin: 0;
+
+        font-size: 20px;
+
+        color: #f8fafc;
+    }
+
+
+    .drop-content p {
+        margin: 8px 0 18px;
+
+        color: #707b98;
+
+        font-size: 12px;
+    }
+
+
+    /* =====================================================
+   FORMATS
+   ===================================================== */
+
+    .supported-formats {
+        display: flex;
+
+        justify-content: center;
+
+        flex-wrap: wrap;
+
+        gap: 7px;
+    }
+
+
+    .supported-formats span {
+        padding: 5px 9px;
+
+        border-radius: 7px;
+
+        background:
+            rgba(255, 255, 255, 0.05);
+
+        border:
+            1px solid rgba(255, 255, 255, 0.08);
+
+        color: #8f9ab8;
+
+        font-size: 9px;
+
+        font-weight: 700;
+
+        letter-spacing: 0.5px;
+    }
+
+
+    /* =====================================================
+   SELECTED FILE
+   ===================================================== */
+
+    .selected-file {
+        display: none;
+
+        align-items: center;
+
+        gap: 13px;
+
+        margin-top: 15px;
+
+        padding: 13px 15px;
+
+        border-radius: 14px;
+
+        background:
+            rgba(34, 197, 94, 0.07);
+
+        border:
+            1px solid rgba(34, 197, 94, 0.15);
+    }
+
+
+    .selected-file.show {
+        display: flex;
+    }
+
+
+    .file-icon {
+        width: 40px;
+        height: 40px;
+
+        display: flex;
+
+        align-items: center;
+
+        justify-content: center;
+
+        border-radius: 11px;
+
+        background:
+            rgba(99, 102, 241, 0.18);
+
+        color: #a5b4fc;
+    }
+
+
+    .file-details {
+        min-width: 0;
+
+        flex: 1;
+    }
+
+
+    .file-details strong {
+        display: block;
+
+        overflow: hidden;
+
+        text-overflow: ellipsis;
+
+        white-space: nowrap;
+
+        color: #f1f5f9;
+
+        font-size: 12px;
+    }
+
+
+    .file-details span {
+        display: block;
+
+        margin-top: 3px;
+
+        color: #6ee7b7;
+
+        font-size: 10px;
+    }
+
+
+    .remove-file {
+        border: 0;
+
+        background: transparent;
+
+        color: #64748b;
+
+        font-size: 22px;
+
+        cursor: pointer;
+
+        transition:
+            color 0.2s ease;
+    }
+
+
+    .remove-file:hover {
+        color: #f87171;
+    }
+
+
+    /* =====================================================
+   MODEL BOX
+   ===================================================== */
+
+    .ai-model-box {
+        margin-top: 18px;
+
+        padding: 18px;
+
+        border-radius: 17px;
+
+        background:
+            rgba(255, 255, 255, 0.035);
+
+        border:
+            1px solid rgba(255, 255, 255, 0.07);
+    }
+
+
+    .model-heading {
+        display: flex;
+
+        gap: 12px;
+
+        align-items: center;
+
+        margin-bottom: 14px;
+    }
+
+
+    .model-icon {
+        width: 40px;
+        height: 40px;
+
+        display: flex;
+
+        align-items: center;
+
+        justify-content: center;
+
+        border-radius: 11px;
+
+        background:
+            rgba(99, 102, 241, 0.15);
+
+        font-size: 18px;
+    }
+
+
+    .model-heading h3 {
+        margin: 0;
+
+        color: #f1f5f9;
+
+        font-size: 13px;
+    }
+
+
+    .model-heading p {
+        margin: 4px 0 0;
+
+        color: #68738e;
+
+        font-size: 10px;
+    }
+
+
+    .creative-model-select {
+        width: 100%;
+
+        padding: 13px 15px;
+
+        border-radius: 11px;
+
+        border:
+            1px solid rgba(255, 255, 255, 0.10);
+
+        background:
+            rgba(5, 8, 20, 0.8);
+
+        color: #e2e8f0;
+
+        font-size: 12px;
+
+        font-weight: 600;
+
+        outline: none;
+
+        cursor: pointer;
+
+        transition:
+            border-color 0.2s ease,
+            box-shadow 0.2s ease;
+    }
+
+
+    .creative-model-select:hover,
+    .creative-model-select:focus {
+        border-color: #6366f1;
+
+        box-shadow:
+            0 0 0 3px rgba(99, 102, 241, 0.10);
+    }
+
+
+    .model-info {
+        display: flex;
+
+        flex-wrap: wrap;
+
+        gap: 15px;
+
+        margin-top: 12px;
+
+        color: #64708c;
+
+        font-size: 9px;
+    }
+
+
+    .model-info>div {
+        display: flex;
+
+        align-items: center;
+
+        gap: 6px;
+    }
+
+
+    .info-dot {
+        width: 5px;
+        height: 5px;
+
+        border-radius: 50%;
+
+        background: #6366f1;
+    }
+
+
+    /* =====================================================
+   PROCESS BUTTON
+   ===================================================== */
+
+    .process-button {
+        width: 100%;
+
+        margin-top: 18px;
+
+        min-height: 54px;
+
+        display: flex;
+
+        align-items: center;
+
+        justify-content: center;
+
+        gap: 10px;
+
+        border: 0;
+
+        border-radius: 14px;
+
+        background:
+            linear-gradient(100deg,
+                #6366f1,
+                #8b5cf6);
+
+        color: white;
+
+        font-size: 13px;
+
+        font-weight: 800;
+
+        cursor: pointer;
+
+        box-shadow:
+            0 10px 30px rgba(99, 102, 241, 0.25);
+
+        transition:
+            transform 0.25s ease,
+            box-shadow 0.25s ease;
+    }
+
+
+    .process-button:hover {
+        transform:
+            translateY(-3px);
+
+        box-shadow:
+            0 15px 40px rgba(99, 102, 241, 0.38);
+    }
+
+
+    .process-button:active {
+        transform:
+            translateY(0);
+    }
+
+
+    .button-icon {
+        font-size: 17px;
+    }
+
+
+    .button-arrow {
+        font-size: 19px;
+
+        margin-left: 5px;
+
+        transition:
+            transform 0.25s ease;
+    }
+
+
+    .process-button:hover .button-arrow {
+        transform:
+            translateX(5px);
+    }
+
+
+    .process-button.processing {
+        opacity: 0.75;
+
+        cursor: wait;
+    }
+
+
+    /* =====================================================
+   RIGHT PIPELINE
+   ===================================================== */
+
+    .processing-panel {
+        padding: 28px;
+
+        border-radius: 24px;
+
+        background:
+            linear-gradient(145deg,
+                rgba(12, 16, 35, 0.82),
+                rgba(8, 11, 24, 0.72));
+
+        border:
+            1px solid rgba(255, 255, 255, 0.08);
+
+        backdrop-filter: blur(18px);
+
+        box-shadow:
+            0 25px 60px rgba(0, 0, 0, 0.25);
+    }
+
+
+    .panel-label {
+        color: #818cf8;
+
+        font-size: 9px;
+
+        font-weight: 800;
+
+        letter-spacing: 1.8px;
+
+        margin-bottom: 10px;
+    }
+
+
+    .processing-panel h2 {
+        margin: 0;
+
+        color: #f8fafc;
+
+        font-size: 25px;
+
+        letter-spacing: -0.7px;
+    }
+
+
+    .processing-panel h2 span {
+        color: #a78bfa;
+    }
+
+
+    .panel-description {
+        margin: 10px 0 25px;
+
+        color: #727e9b;
+
+        font-size: 11px;
+
+        line-height: 1.7;
+    }
+
+
+    /* =====================================================
+   PIPELINE
+   ===================================================== */
+
+    .pipeline-step {
+        display: grid;
+
+        grid-template-columns:
+            28px 42px 1fr;
+
+        gap: 12px;
+
+        align-items: center;
+    }
+
+
+    .step-number {
+        color: #4f5874;
+
+        font-size: 8px;
+
+        font-weight: 800;
+    }
+
+
+    .step-icon {
+        width: 42px;
+        height: 42px;
+
+        display: flex;
+
+        align-items: center;
+
+        justify-content: center;
+
+        border-radius: 12px;
+
+        background:
+            rgba(99, 102, 241, 0.10);
+
+        border:
+            1px solid rgba(129, 140, 248, 0.14);
+
+        color: #a5b4fc;
+
+        font-size: 17px;
+
+        transition:
+            all 0.25s ease;
+    }
+
+
+    .pipeline-step:hover .step-icon {
+        background:
+            rgba(99, 102, 241, 0.20);
+
+        border-color:
+            rgba(129, 140, 248, 0.35);
+
+        box-shadow:
+            0 0 20px rgba(99, 102, 241, 0.15);
+
+        transform:
+            scale(1.06);
+    }
+
+
+    .step-content strong {
+        display: block;
+
+        color: #e2e8f0;
+
+        font-size: 12px;
+    }
+
+
+    .step-content span {
+        display: block;
+
+        margin-top: 4px;
+
+        color: #66718d;
+
+        font-size: 9px;
+    }
+
+
+    .pipeline-line {
+        width: 1px;
+
+        height: 27px;
+
+        margin-left: 48px;
+
+        background:
+            linear-gradient(180deg,
+                rgba(99, 102, 241, 0.35),
+                rgba(99, 102, 241, 0.05));
+    }
+
+
+    /* =====================================================
+   AI READY CARD
+   ===================================================== */
+
+    .ai-ready-card {
+        display: flex;
+
+        align-items: center;
+
+        gap: 11px;
+
+        margin-top: 28px;
+
+        padding: 14px;
+
+        border-radius: 15px;
+
+        background:
+            rgba(99, 102, 241, 0.07);
+
+        border:
+            1px solid rgba(129, 140, 248, 0.12);
+    }
+
+
+    .ai-orb-small {
+        width: 36px;
+        height: 36px;
+
+        display: flex;
+
+        align-items: center;
+
+        justify-content: center;
+
+        flex-shrink: 0;
+
+        border-radius: 50%;
+
+        background:
+            linear-gradient(135deg,
+                #6366f1,
+                #8b5cf6);
+
+        color: white;
+
+        box-shadow:
+            0 0 20px rgba(99, 102, 241, 0.35);
+    }
+
+
+    .ai-ready-card strong {
+        display: block;
+
+        color: #e2e8f0;
+
+        font-size: 11px;
+    }
+
+
+    .ai-ready-card p {
+        margin: 3px 0 0;
+
+        color: #68738e;
+
+        font-size: 9px;
+    }
+
+
+    .ready-dot {
+        width: 7px;
+        height: 7px;
+
+        margin-left: auto;
+
+        border-radius: 50%;
+
+        background: #22c55e;
+
+        box-shadow:
+            0 0 10px #22c55e;
+    }
+
+
+    /* =====================================================
+   ANIMATIONS
+   ===================================================== */
+
+    @keyframes orbitRotate {
+
+        from {
+            transform: rotate(0deg);
+        }
+
+        to {
+            transform: rotate(360deg);
+        }
+
+    }
+
+
+    @keyframes orbitRotateReverse {
+
+        from {
+            transform: rotate(360deg);
+        }
+
+        to {
+            transform: rotate(0deg);
+        }
+
+    }
+
+
+    /* =====================================================
+   RESPONSIVE
+   ===================================================== */
+
+    @media (max-width: 1000px) {
+
+        .upload-workspace {
+            grid-template-columns: 1fr;
+        }
+
+    }
+
+
+    @media (max-width: 700px) {
+
+        .upload-page {
+            padding: 25px 18px 45px;
+        }
+
+        .upload-header {
+            align-items: flex-start;
+
+            flex-direction: column;
+
+            margin-bottom: 25px;
+        }
+
+        .upload-header-status {
+            align-self: flex-start;
+        }
+
+        .creative-upload-card,
+        .processing-panel {
+            padding: 18px;
+
+            border-radius: 19px;
+        }
+
+        .drop-zone {
+            min-height: 300px;
+
+            padding: 20px;
+        }
+
+    }
+
+
+    @media (max-width: 450px) {
+
+        .upload-header h1 {
+            font-size: 31px;
+        }
+
+        .process-button {
+            font-size: 11px;
+        }
+
+        .model-info {
+            flex-direction: column;
+
+            gap: 7px;
+        }
+
+    }
+</style>
 
 {% endblock %}

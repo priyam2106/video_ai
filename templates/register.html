@@ -1,59 +1,1237 @@
 {% extends "base.html" %}
 
 {% block title %}
-Register
+Create Account | AI Video Intelligence
 {% endblock %}
-
 
 {% block content %}
 
-<div class="auth-card">
+<div class="register-page">
 
-    <h1>Create Account</h1>
+    <!-- Background Effects -->
+    <div class="register-glow glow-one"></div>
+    <div class="register-glow glow-two"></div>
 
-    <p class="subtitle">
-        Create your AI Video Intelligence account
-    </p>
+    <div class="register-container">
 
-    <form method="POST" action="{{ url_for('register') }}">
+        <!-- LEFT SIDE -->
+        <div class="register-intro">
 
-        <label>Name</label>
+            <div class="register-logo">
+                ✦
+            </div>
 
-        <input type="text" name="name" placeholder="Enter your name" required>
+            <span class="register-label">
+                BUILD YOUR AI WORKSPACE
+            </span>
 
+            <h1>
+                Create.<br>
+                <span>Explore.</span><br>
+                Understand.
+            </h1>
 
-        <label>Email</label>
-
-        <input type="email" name="email" placeholder="Enter your email" required>
-
-
-        <label>Password</label>
-
-        <input type="password" name="password" placeholder="Enter password" required>
-
-
-        <label>Confirm Password</label>
-
-        <input type="password" name="confirm_password" placeholder="Confirm password" required>
-
-
-        <button type="submit" class="primary-btn">
-            Create Account
-        </button>
-
-    </form>
+            <p>
+                Create your account and start turning videos
+                into searchable, intelligent knowledge.
+            </p>
 
 
-    <p class="auth-link">
+            <!-- AI PROCESS -->
+            <div class="register-process">
 
-        Already have an account?
+                <div class="process-item">
 
-        <a href="{{ url_for('login') }}">
-            Login
-        </a>
+                    <div class="process-number">
+                        01
+                    </div>
 
-    </p>
+                    <div>
+                        <strong>Upload</strong>
+                        <small>Upload your video content</small>
+                    </div>
+
+                </div>
+
+
+                <div class="process-line"></div>
+
+
+                <div class="process-item">
+
+                    <div class="process-number">
+                        02
+                    </div>
+
+                    <div>
+                        <strong>Analyze</strong>
+                        <small>AI processes your video</small>
+                    </div>
+
+                </div>
+
+
+                <div class="process-line"></div>
+
+
+                <div class="process-item">
+
+                    <div class="process-number">
+                        03
+                    </div>
+
+                    <div>
+                        <strong>Discover</strong>
+                        <small>Search and ask questions</small>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- RIGHT SIDE -->
+        <div class="register-card">
+
+            <div class="register-card-header">
+
+                <div class="register-mini-icon">
+                    🚀
+                </div>
+
+                <div>
+                    <h2>Create Account</h2>
+                    <p>Start your AI-powered video workspace</p>
+                </div>
+
+            </div>
+
+
+            <form method="POST" action="{{ url_for('register') }}">
+
+                <!-- NAME -->
+                <div class="register-input-group">
+
+                    <label for="name">
+                        Full Name
+                    </label>
+
+                    <div class="register-input-wrapper">
+
+                        <span class="register-input-icon">
+                            👤
+                        </span>
+
+                        <input type="text" id="name" name="name" placeholder="Enter your name" required
+                            autocomplete="name">
+
+                    </div>
+
+                </div>
+
+
+                <!-- EMAIL -->
+                <div class="register-input-group">
+
+                    <label for="email">
+                        Email Address
+                    </label>
+
+                    <div class="register-input-wrapper">
+
+                        <span class="register-input-icon">
+                            ✉
+                        </span>
+
+                        <input type="email" id="email" name="email" placeholder="Enter your email" required
+                            autocomplete="email">
+
+                    </div>
+
+                </div>
+
+
+                <!-- PASSWORD -->
+                <div class="register-input-group">
+
+                    <label for="password">
+                        Password
+                    </label>
+
+                    <div class="register-input-wrapper">
+
+                        <span class="register-input-icon">
+                            🔒
+                        </span>
+
+                        <input type="password" id="registerPassword" name="password" placeholder="Create a password"
+                            required autocomplete="new-password">
+
+                        <button type="button" class="register-password-toggle" id="registerPasswordToggle"
+                            aria-label="Show password">
+                            ◉
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+                <!-- CONFIRM PASSWORD -->
+                <div class="register-input-group">
+
+                    <label for="confirm_password">
+                        Confirm Password
+                    </label>
+
+                    <div class="register-input-wrapper">
+
+                        <span class="register-input-icon">
+                            ✓
+                        </span>
+
+                        <input type="password" id="confirmPassword" name="confirm_password"
+                            placeholder="Confirm your password" required autocomplete="new-password">
+
+                        <button type="button" class="register-password-toggle" id="confirmPasswordToggle"
+                            aria-label="Show password">
+                            ◉
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+                <!-- PASSWORD STATUS -->
+                <div class="password-status" id="passwordStatus">
+                    <span class="status-dot"></span>
+                    <span id="passwordStatusText">
+                        Enter a password
+                    </span>
+                </div>
+
+
+                <!-- SUBMIT -->
+                <button type="submit" class="register-button">
+
+                    <span>
+                        Create My Workspace
+                    </span>
+
+                    <span class="register-arrow">
+                        →
+                    </span>
+
+                </button>
+
+            </form>
+
+
+            <div class="register-divider">
+                <span>AI VIDEO INTELLIGENCE SYSTEM</span>
+            </div>
+
+
+            <p class="login-text">
+
+                Already have an account?
+
+                <a href="{{ url_for('login') }}">
+                    Login →
+                </a>
+
+            </p>
+
+
+            <div class="privacy-note">
+
+                <span>●</span>
+
+                Your account and video workspace remain private
+
+            </div>
+
+        </div>
+
+    </div>
 
 </div>
+
+
+<style>
+    /* =========================================
+   REGISTER PAGE
+========================================= */
+
+    .register-page {
+
+        min-height: 100vh;
+
+        display: flex;
+
+        align-items: center;
+
+        justify-content: center;
+
+        padding: 35px;
+
+        position: relative;
+
+        overflow: hidden;
+    }
+
+
+    /* =========================================
+   BACKGROUND GLOW
+========================================= */
+
+    .register-glow {
+
+        position: absolute;
+
+        border-radius: 50%;
+
+        filter: blur(110px);
+
+        pointer-events: none;
+    }
+
+
+    .glow-one {
+
+        width: 380px;
+
+        height: 380px;
+
+        background: rgba(99, 102, 241, 0.17);
+
+        top: -150px;
+
+        right: -100px;
+    }
+
+
+    .glow-two {
+
+        width: 420px;
+
+        height: 420px;
+
+        background: rgba(168, 85, 247, 0.12);
+
+        bottom: -200px;
+
+        left: -150px;
+    }
+
+
+    /* =========================================
+   MAIN CONTAINER
+========================================= */
+
+    .register-container {
+
+        width: min(1080px, 100%);
+
+        min-height: 650px;
+
+        display: grid;
+
+        grid-template-columns: 1fr 0.95fr;
+
+        background: rgba(15, 23, 42, 0.74);
+
+        border: 1px solid rgba(148, 163, 184, 0.14);
+
+        border-radius: 28px;
+
+        backdrop-filter: blur(25px);
+
+        -webkit-backdrop-filter: blur(25px);
+
+        box-shadow:
+            0 30px 90px rgba(0, 0, 0, 0.38),
+            inset 0 1px 0 rgba(255, 255, 255, 0.05);
+
+        overflow: hidden;
+
+        position: relative;
+
+        z-index: 2;
+    }
+
+
+    /* =========================================
+   LEFT SECTION
+========================================= */
+
+    .register-intro {
+
+        padding: 60px 55px;
+
+        display: flex;
+
+        flex-direction: column;
+
+        justify-content: center;
+
+        position: relative;
+    }
+
+
+    .register-logo {
+
+        width: 54px;
+
+        height: 54px;
+
+        display: flex;
+
+        align-items: center;
+
+        justify-content: center;
+
+        border-radius: 16px;
+
+        background:
+            linear-gradient(135deg,
+                rgba(99, 102, 241, 0.25),
+                rgba(168, 85, 247, 0.15));
+
+        border: 1px solid rgba(129, 140, 248, 0.25);
+
+        color: #a5b4fc;
+
+        font-size: 27px;
+
+        margin-bottom: 24px;
+
+        box-shadow:
+            0 0 30px rgba(99, 102, 241, 0.15);
+    }
+
+
+    .register-label {
+
+        color: #818cf8;
+
+        font-size: 10px;
+
+        font-weight: 800;
+
+        letter-spacing: 3px;
+
+        margin-bottom: 18px;
+    }
+
+
+    .register-intro h1 {
+
+        margin: 0;
+
+        font-size: clamp(42px, 5vw, 66px);
+
+        line-height: 1.02;
+
+        letter-spacing: -2.5px;
+
+        color: #f8fafc;
+
+        font-weight: 800;
+    }
+
+
+    .register-intro h1 span {
+
+        background:
+            linear-gradient(90deg,
+                #818cf8,
+                #c084fc);
+
+        -webkit-background-clip: text;
+
+        -webkit-text-fill-color: transparent;
+
+        background-clip: text;
+    }
+
+
+    .register-intro>p {
+
+        max-width: 440px;
+
+        margin: 25px 0 35px;
+
+        color: #94a3b8;
+
+        font-size: 14px;
+
+        line-height: 1.8;
+    }
+
+
+    /* =========================================
+   PROCESS
+========================================= */
+
+    .register-process {
+
+        display: flex;
+
+        flex-direction: column;
+
+        width: 100%;
+
+        max-width: 410px;
+    }
+
+
+    .process-item {
+
+        display: flex;
+
+        align-items: center;
+
+        gap: 14px;
+
+        padding: 10px 0;
+    }
+
+
+    .process-number {
+
+        width: 39px;
+
+        height: 39px;
+
+        flex-shrink: 0;
+
+        display: flex;
+
+        align-items: center;
+
+        justify-content: center;
+
+        border-radius: 11px;
+
+        background: rgba(99, 102, 241, 0.10);
+
+        border: 1px solid rgba(129, 140, 248, 0.16);
+
+        color: #818cf8;
+
+        font-size: 10px;
+
+        font-weight: 800;
+
+        letter-spacing: 1px;
+    }
+
+
+    .process-item strong {
+
+        display: block;
+
+        color: #e2e8f0;
+
+        font-size: 13px;
+
+        margin-bottom: 3px;
+    }
+
+
+    .process-item small {
+
+        color: #64748b;
+
+        font-size: 11px;
+    }
+
+
+    .process-line {
+
+        height: 17px;
+
+        width: 1px;
+
+        margin-left: 19px;
+
+        background:
+            linear-gradient(to bottom,
+                rgba(99, 102, 241, 0.35),
+                rgba(99, 102, 241, 0.03));
+    }
+
+
+    /* =========================================
+   REGISTER CARD
+========================================= */
+
+    .register-card {
+
+        margin: 20px;
+
+        padding: 38px 40px;
+
+        display: flex;
+
+        flex-direction: column;
+
+        justify-content: center;
+
+        background: rgba(2, 6, 23, 0.58);
+
+        border: 1px solid rgba(148, 163, 184, 0.10);
+
+        border-radius: 22px;
+
+        box-shadow:
+            inset 0 1px 0 rgba(255, 255, 255, 0.03);
+    }
+
+
+    /* =========================================
+   CARD HEADER
+========================================= */
+
+    .register-card-header {
+
+        display: flex;
+
+        align-items: center;
+
+        gap: 14px;
+
+        margin-bottom: 25px;
+    }
+
+
+    .register-mini-icon {
+
+        width: 45px;
+
+        height: 45px;
+
+        display: flex;
+
+        align-items: center;
+
+        justify-content: center;
+
+        border-radius: 13px;
+
+        background: rgba(99, 102, 241, 0.13);
+
+        border: 1px solid rgba(129, 140, 248, 0.18);
+
+        font-size: 19px;
+    }
+
+
+    .register-card-header h2 {
+
+        margin: 0 0 3px;
+
+        color: #f8fafc;
+
+        font-size: 24px;
+
+        font-weight: 750;
+    }
+
+
+    .register-card-header p {
+
+        margin: 0;
+
+        color: #64748b;
+
+        font-size: 11px;
+    }
+
+
+    /* =========================================
+   INPUT GROUP
+========================================= */
+
+    .register-input-group {
+
+        margin-bottom: 14px;
+    }
+
+
+    .register-input-group label {
+
+        display: block;
+
+        margin-bottom: 7px;
+
+        color: #cbd5e1;
+
+        font-size: 11px;
+
+        font-weight: 650;
+    }
+
+
+    .register-input-wrapper {
+
+        position: relative;
+
+        display: flex;
+
+        align-items: center;
+    }
+
+
+    .register-input-icon {
+
+        position: absolute;
+
+        left: 14px;
+
+        color: #64748b;
+
+        font-size: 14px;
+
+        pointer-events: none;
+    }
+
+
+    .register-input-wrapper input {
+
+        width: 100%;
+
+        height: 46px;
+
+        box-sizing: border-box;
+
+        padding: 0 43px;
+
+        border-radius: 11px;
+
+        border: 1px solid rgba(148, 163, 184, 0.14);
+
+        outline: none;
+
+        background: rgba(15, 23, 42, 0.75);
+
+        color: #f8fafc;
+
+        font-size: 12px;
+
+        transition:
+            border-color 0.2s ease,
+            box-shadow 0.2s ease,
+            background 0.2s ease;
+    }
+
+
+    .register-input-wrapper input::placeholder {
+
+        color: #475569;
+    }
+
+
+    .register-input-wrapper input:focus {
+
+        border-color: rgba(129, 140, 248, 0.65);
+
+        background: rgba(15, 23, 42, 0.95);
+
+        box-shadow:
+            0 0 0 3px rgba(99, 102, 241, 0.08);
+    }
+
+
+    /* =========================================
+   PASSWORD TOGGLE
+========================================= */
+
+    .register-password-toggle {
+
+        position: absolute;
+
+        right: 8px;
+
+        width: 31px;
+
+        height: 31px;
+
+        border: none;
+
+        border-radius: 8px;
+
+        background: transparent;
+
+        color: #64748b;
+
+        cursor: pointer;
+
+        transition:
+            color 0.2s ease,
+            background 0.2s ease;
+    }
+
+
+    .register-password-toggle:hover {
+
+        color: #a5b4fc;
+
+        background: rgba(99, 102, 241, 0.10);
+    }
+
+
+    /* =========================================
+   PASSWORD STATUS
+========================================= */
+
+    .password-status {
+
+        display: flex;
+
+        align-items: center;
+
+        gap: 7px;
+
+        margin: 5px 0 15px;
+
+        color: #64748b;
+
+        font-size: 10px;
+    }
+
+
+    .status-dot {
+
+        width: 6px;
+
+        height: 6px;
+
+        border-radius: 50%;
+
+        background: #64748b;
+    }
+
+
+    /* =========================================
+   REGISTER BUTTON
+========================================= */
+
+    .register-button {
+
+        width: 100%;
+
+        height: 49px;
+
+        display: flex;
+
+        align-items: center;
+
+        justify-content: space-between;
+
+        padding: 0 16px 0 19px;
+
+        border: none;
+
+        border-radius: 11px;
+
+        background:
+            linear-gradient(135deg,
+                #6366f1,
+                #7c3aed);
+
+        color: white;
+
+        font-size: 12px;
+
+        font-weight: 750;
+
+        cursor: pointer;
+
+        box-shadow:
+            0 10px 25px rgba(99, 102, 241, 0.20);
+
+        transition:
+            transform 0.2s ease,
+            box-shadow 0.2s ease,
+            filter 0.2s ease;
+    }
+
+
+    .register-button:hover {
+
+        transform: translateY(-2px);
+
+        filter: brightness(1.08);
+
+        box-shadow:
+            0 15px 35px rgba(99, 102, 241, 0.30);
+    }
+
+
+    .register-arrow {
+
+        width: 29px;
+
+        height: 29px;
+
+        display: flex;
+
+        align-items: center;
+
+        justify-content: center;
+
+        border-radius: 8px;
+
+        background: rgba(255, 255, 255, 0.12);
+
+        font-size: 16px;
+    }
+
+
+    /* =========================================
+   DIVIDER
+========================================= */
+
+    .register-divider {
+
+        display: flex;
+
+        align-items: center;
+
+        gap: 9px;
+
+        margin: 20px 0 15px;
+
+        color: #334155;
+
+        font-size: 7px;
+
+        letter-spacing: 1.4px;
+
+        font-weight: 700;
+    }
+
+
+    .register-divider::before,
+    .register-divider::after {
+
+        content: "";
+
+        height: 1px;
+
+        flex: 1;
+
+        background: rgba(148, 163, 184, 0.10);
+    }
+
+
+    .register-divider span {
+
+        white-space: nowrap;
+    }
+
+
+    /* =========================================
+   LOGIN LINK
+========================================= */
+
+    .login-text {
+
+        margin: 0;
+
+        text-align: center;
+
+        color: #64748b;
+
+        font-size: 11px;
+    }
+
+
+    .login-text a {
+
+        color: #a5b4fc;
+
+        text-decoration: none;
+
+        font-weight: 700;
+
+        margin-left: 4px;
+
+        transition: color 0.2s ease;
+    }
+
+
+    .login-text a:hover {
+
+        color: #c4b5fd;
+    }
+
+
+    /* =========================================
+   PRIVACY
+========================================= */
+
+    .privacy-note {
+
+        margin-top: 18px;
+
+        text-align: center;
+
+        color: #475569;
+
+        font-size: 9px;
+    }
+
+
+    .privacy-note span {
+
+        color: #22c55e;
+
+        font-size: 7px;
+
+        margin-right: 5px;
+    }
+
+
+    /* =========================================
+   RESPONSIVE
+========================================= */
+
+    @media (max-width: 850px) {
+
+        .register-page {
+
+            padding: 20px;
+        }
+
+        .register-container {
+
+            grid-template-columns: 1fr;
+
+            max-width: 520px;
+        }
+
+        .register-intro {
+
+            padding: 35px 35px 10px;
+        }
+
+        .register-intro h1 {
+
+            font-size: 50px;
+        }
+
+        .register-intro>p {
+
+            margin: 18px 0 20px;
+        }
+
+        .register-process {
+
+            display: none;
+        }
+
+        .register-card {
+
+            margin: 10px 20px 20px;
+
+            padding: 32px 27px;
+        }
+    }
+
+
+    @media (max-width: 500px) {
+
+        .register-page {
+
+            padding: 12px;
+        }
+
+        .register-container {
+
+            border-radius: 20px;
+        }
+
+        .register-intro {
+
+            padding: 28px 23px 8px;
+        }
+
+        .register-intro h1 {
+
+            font-size: 43px;
+
+            letter-spacing: -2px;
+        }
+
+        .register-card {
+
+            margin: 10px;
+
+            padding: 27px 19px;
+        }
+
+    }
+</style>
+
+
+<script>
+
+    /* =========================================
+       PASSWORD SHOW / HIDE
+    ========================================= */
+
+    function setupPasswordToggle(inputId, buttonId) {
+
+        const input = document.getElementById(inputId);
+
+        const button = document.getElementById(buttonId);
+
+        if (!input || !button) {
+            return;
+        }
+
+        button.addEventListener("click", function () {
+
+            if (input.type === "password") {
+
+                input.type = "text";
+
+                button.setAttribute(
+                    "aria-label",
+                    "Hide password"
+                );
+
+            } else {
+
+                input.type = "password";
+
+                button.setAttribute(
+                    "aria-label",
+                    "Show password"
+                );
+
+            }
+
+        });
+
+    }
+
+
+    setupPasswordToggle(
+        "registerPassword",
+        "registerPasswordToggle"
+    );
+
+
+    setupPasswordToggle(
+        "confirmPassword",
+        "confirmPasswordToggle"
+    );
+
+
+    /* =========================================
+       PASSWORD STATUS
+    ========================================= */
+
+    const password = document.getElementById("registerPassword");
+
+    const passwordStatusText =
+        document.getElementById("passwordStatusText");
+
+    const statusDot =
+        document.querySelector(".status-dot");
+
+
+    if (password) {
+
+        password.addEventListener("input", function () {
+
+            const value = password.value;
+
+            if (value.length === 0) {
+
+                passwordStatusText.textContent =
+                    "Enter a password";
+
+                statusDot.style.background =
+                    "#64748b";
+
+            } else if (value.length < 6) {
+
+                passwordStatusText.textContent =
+                    "Password is too short";
+
+                statusDot.style.background =
+                    "#ef4444";
+
+            } else if (value.length < 10) {
+
+                passwordStatusText.textContent =
+                    "Password strength: Good";
+
+                statusDot.style.background =
+                    "#f59e0b";
+
+            } else {
+
+                passwordStatusText.textContent =
+                    "Password strength: Strong";
+
+                statusDot.style.background =
+                    "#22c55e";
+
+            }
+
+        });
+
+    }
+
+
+    /* =========================================
+       CONFIRM PASSWORD CHECK
+    ========================================= */
+
+    const confirmPassword =
+        document.getElementById("confirmPassword");
+
+
+    if (confirmPassword) {
+
+        confirmPassword.addEventListener("input", function () {
+
+            if (
+                confirmPassword.value &&
+                confirmPassword.value !== password.value
+            ) {
+
+                confirmPassword.style.borderColor =
+                    "rgba(239, 68, 68, 0.6)";
+
+            } else if (
+                confirmPassword.value &&
+                confirmPassword.value === password.value
+            ) {
+
+                confirmPassword.style.borderColor =
+                    "rgba(34, 197, 94, 0.5)";
+
+            } else {
+
+                confirmPassword.style.borderColor =
+                    "rgba(148, 163, 184, 0.14)";
+
+            }
+
+        });
+
+    }
+
+</script>
 
 {% endblock %}
